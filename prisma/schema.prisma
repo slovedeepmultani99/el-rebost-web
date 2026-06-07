@@ -1,0 +1,147 @@
+// prisma/schema.prisma
+// El Rebost de Montigalà — Esquema completo de base de datos
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─────────────────────────────────────────
+// CMS — Contenido de la web pública
+// ─────────────────────────────────────────
+model Setting {
+  key       String   @id
+  // Posibles keys: "hero" | "casa" | "features" | "stats" | "info" | "horarios" | "marca" | "menuSec" | "reservasSec"
+  value     Json
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
+
+// ─────────────────────────────────────────
+// CARTA — Secciones y platos
+// ─────────────────────────────────────────
+model CartaSection {
+  id        String      @id @default(cuid())
+  title     String
+  subtitle  String?
+  note      String?     // "*Salsas: pesto, carbonara…"
+  isSalsas  Boolean     @default(false)
+  sortOrder Int         @default(0)
+  active    Boolean     @default(true)
+  dishes    CartaDish[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@map("carta_sections")
+}
+
+model CartaDish {
+  id          String       @id @default(cuid())
+  sectionId   String
+  name        String
+  description String?
+  price       Decimal?     @db.Decimal(8, 2)
+  available   Boolean      @default(true)
+  isStar      Boolean      @default(false)
+  isVeg       Boolean      @default(false)
+  isSg        Boolean      @default(false)  // sin gluten
+  imageUrl    String?
+  sortOrder   Int          @default(0)
+  section     CartaSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("carta_dishes")
+}
+
+// ─────────────────────────────────────────
+// MENÚ DEL DÍA
+// ─────────────────────────────────────────
+model DailyMenu {
+  id           String      @id @default(cuid())
+  dayOfWeek    Int         // 0=Dom 1=Lun 2=Mar 3=Mié 4=Jue 5=Vie 6=Sáb
+  price        String      @default("16 €")
+  postre       String      @default("Postre casero del día, fruta o café")
+  inclBread    Boolean     @default(true)
+  inclDrink    Boolean     @default(true)
+  inclCoffee   Boolean     @default(false)
+  inclDessert  Boolean     @default(false)
+  active       Boolean     @default(true)
+  dishes       DailyDish[]
+  updatedAt    DateTime    @updatedAt
+
+  @@unique([dayOfWeek])
+  @@map("daily_menus")
+}
+
+model DailyDish {
+  id           String    @id @default(cuid())
+  menuId       String
+  course       String    // "primero" | "segundo"
+  name         String
+  description  String?
+  sortOrder    Int       @default(0)
+  isSupplement Boolean   @default(false)
+  suppPrice    String?   // "+3 €"
+  menu         DailyMenu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+
+  @@map("daily_dishes")
+}
+
+// ─────────────────────────────────────────
+// RESERVAS
+// ─────────────────────────────────────────
+model Reservation {
+  id        String   @id @default(cuid())
+  date      DateTime @db.Date
+  time      String   // "14:00"
+  service   String   // "comida" | "cena"
+  name      String
+  phone     String
+  guests    Int
+  notes     String?
+  status    String   @default("pending") // "pending" | "confirmed" | "cancelled"
+  emailSent Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([date])
+  @@index([status])
+  @@map("reservations")
+}
+
+// ─────────────────────────────────────────
+// GALERÍA
+// ─────────────────────────────────────────
+model GalleryImage {
+  id        String   @id @default(cuid())
+  imageUrl  String
+  title     String?
+  sortOrder Int      @default(0)
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  @@map("gallery_images")
+}
+
+// ─────────────────────────────────────────
+// USUARIOS BACKOFFICE
+// ─────────────────────────────────────────
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // bcrypt hash
+  name      String
+  role      String   @default("editor") // "admin" | "editor"
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admin_users")
+}

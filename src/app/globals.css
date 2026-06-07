@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --wine:      #5C1A2B;
+  --wine-deep: #3A0F1B;
+  --wine-soft: #7C2C3E;
+  --cream:     #F5EDE0;
+  --bone:      #FBF7EF;
+  --ember:     #C8552B;
+  --ember-bright: #E07A33;
+  --olive:     #5E6B3E;
+  --gold:      #BC9255;
+  --ink:       #2A1A18;
+  --ink-soft:  #6A554F;
+  --line:      rgba(42, 26, 24, 0.14);
+  --shadow:    0 18px 50px -22px rgba(58,15,27,.55);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 78px; }
+
+body {
+  font-family: var(--font-karla), sans-serif;
+  background: var(--bone);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Grain texture overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-fraunces), serif;
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+}
+
+a { color: inherit; text-decoration: none; }
+
+@layer components {
+  .wrap {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-karla), sans-serif;
+    font-weight: 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ember);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    font-family: var(--font-karla), sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    padding: 0.95em 1.7em;
+    border-radius: 100px;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--ember); color: #fff; }
+  .btn-primary:hover { background: var(--wine); transform: translateY(-2px); }
+  .btn-ghost { background: transparent; color: var(--wine); border-color: rgba(92,26,43,.35); }
+  .btn-ghost:hover { background: var(--wine); color: var(--cream); border-color: var(--wine); }
+  .btn-cream { background: var(--cream); color: var(--wine); }
+  .btn-cream:hover { background: #fff; transform: translateY(-2px); }
+  .btn-outline-light { background: transparent; color: var(--cream); border-color: rgba(245,237,224,.4); }
+  .btn-outline-light:hover { background: rgba(245,237,224,.12); }
+
+  .sec-head { max-width: 640px; margin-bottom: 54px; }
+  .sec-head h2 { font-size: clamp(2.1rem, 4.5vw, 3.4rem); font-weight: 400; margin: 14px 0 16px; }
+  .sec-head p { font-size: 1.08rem; color: var(--ink-soft); }
+  .sec-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+
+  .reveal { opacity: 0; transform: translateY(26px); transition: 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .reveal.in { opacity: 1; transform: none; }
+
+  .rev-card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+  }
+}
+
+/* ── WhatsApp floating button ── */
+.wa-fab {
+  position: fixed;
+  bottom: 26px;
+  right: 26px;
+  z-index: 990;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: #15803d;
+  color: #fff;
+  border-radius: 100px;
+  padding: 13px 20px 13px 16px;
+  box-shadow: 0 6px 28px rgba(21, 128, 61, .42);
+  text-decoration: none;
+  font-family: var(--font-karla), sans-serif;
+  font-weight: 700;
+  font-size: .9rem;
+  transition: transform .25s, box-shadow .25s, background .2s;
+  white-space: nowrap;
+}
+.wa-fab:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 40px rgba(21, 128, 61, .5);
+  background: #166534;
+  color: #fff;
+}
+@media (max-width: 640px) {
+  .wa-fab { padding: 13px; }
+  .wa-fab-label { display: none; }
+}
+
+/* ── Responsive grid helpers ── */
+/* Overrides inline gridTemplateColumns at ≤900 px */
+@media (max-width: 900px) {
+  .mob-stack { grid-template-columns: 1fr !important; }
+  .mob-2col  { grid-template-columns: repeat(2, 1fr) !important; }
+}
+@media (max-width: 580px) {
+  .mob-sm-1col { grid-template-columns: 1fr !important; }
+}
