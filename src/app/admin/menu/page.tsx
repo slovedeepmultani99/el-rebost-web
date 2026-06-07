@@ -57,7 +57,7 @@ export default function MenuAdminPage() {
   const setField = (k: keyof Menu, v: unknown) => setForm((p) => p ? { ...p, [k]: v } : p)
   const setDish = (i: number, k: keyof Dish, v: string | boolean) => {
     if (!form) return
-    const dishes = [...form.dishes]; (dishes[i] as Record<string, unknown>)[k] = v; setForm({ ...form, dishes })
+    const dishes = [...form.dishes]; (dishes[i] as unknown as Record<string, unknown>)[k] = v; setForm({ ...form, dishes })
   }
   const addDish = (course: "primero" | "segundo") =>
     setForm((p) => p ? { ...p, dishes: [...p.dishes, emptyDish(course)] } : p)
