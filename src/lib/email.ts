@@ -1,7 +1,5 @@
 import { Resend } from "resend"
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 interface ReservationEmailData {
   name: string
   date: string
@@ -13,6 +11,8 @@ interface ReservationEmailData {
 }
 
 export async function sendReservationNotification(data: ReservationEmailData) {
+  if (!process.env.RESEND_API_KEY) return
+  const resend = new Resend(process.env.RESEND_API_KEY)
   const serviceLabel = data.service === "cena" ? "Cena" : "Comida"
   const dateStr = new Date(data.date).toLocaleDateString("es-ES", {
     weekday: "long",
