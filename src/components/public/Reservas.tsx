@@ -7,8 +7,14 @@ interface InfoData { tel: string; addr: string }
 interface Horario { dias: string; horas: string; nota: string }
 
 const LUNCH_SLOTS = ["13:00", "13:30", "14:00", "14:30", "15:00", "15:30"]
-const DINNER_SLOTS = ["20:00", "20:30", "21:00", "21:30", "22:00", "22:30"]
-const DINNER_DAYS = [5, 6]
+const DINNER_SLOTS = ["19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30"]
+const DINNER_DAYS = [4, 5, 6] // Jueves, Viernes, Sábado
+
+const todayStr = () => new Date().toISOString().split("T")[0]
+const minSlotTime = () => {
+  const d = new Date(Date.now() + 30 * 60 * 1000)
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`
+}
 
 type Status = "idle" | "loading" | "success" | "error"
 
@@ -40,14 +46,17 @@ export default function Reservas({ info, horarios }: { info: InfoData; horarios:
   const [errorMsg, setErrorMsg] = useState("")
 
   const dateDay = form.date ? new Date(form.date + "T12:00:00").getDay() : -1
-  const slots = form.service === "cena" ? DINNER_SLOTS : LUNCH_SLOTS
+  const isToday = form.date === todayStr()
+  const minTime = isToday ? minSlotTime() : "00:00"
+  const allSlots = form.service === "cena" ? DINNER_SLOTS : LUNCH_SLOTS
+  const slots = allSlots.filter((t) => !isToday || t >= minTime)
   const dinnerDisabled = form.service === "cena" && !DINNER_DAYS.includes(dateDay)
-  const set = (k: string, v: string) => setForm((p) => ({ ...p, [k]: v, ...(k === "service" ? { time: "" } : {}) }))
+  const set = (k: string, v: string) => setForm((p) => ({ ...p, [k]: v, ...(k === "service" || k === "date" ? { time: "" } : {}) }))
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (parseInt(form.guests) > 12) {
-      setErrorMsg(`Para grupos de más de 12 personas, llámenos al ${info.tel}`)
+    if (parseInt(form.guests) > 40) {
+      setErrorMsg(`Para grupos de más de 40 personas, llámenos al ${info.tel}`)
       setStatus("error"); return
     }
     setStatus("loading"); setErrorMsg("")
@@ -89,7 +98,7 @@ export default function Reservas({ info, horarios }: { info: InfoData; horarios:
             {[
               { ic: "🍽", title: "Comidas todos los días", sub: "De 13:00 a 16:00 h" },
               { ic: "🌙", title: "Cenas viernes y sábado", sub: "De 20:00 a 23:00 h" },
-              { ic: "🔥", title: "¿Grupos de +12?", sub: `Llámanos al ${info.tel}` },
+              { ic: "🔥", title: "¿Grupos de +40?", sub: `Llámanos al ${info.tel}` },
               { ic: "🅿️", title: "Fácil aparcamiento", sub: "Junto al CC Montigalà · parking a 80 m" },
             ].map((f, i) => (
               <div key={i} style={{ display: "flex", gap: 13, alignItems: "flex-start", marginBottom: 18 }}>
@@ -137,7 +146,7 @@ export default function Reservas({ info, horarios }: { info: InfoData; horarios:
                   <div>
                     <label htmlFor="res-guests" style={labelStyle}>Comensales</label>
                     <select id="res-guests" value={form.guests} onChange={(e) => set("guests", e.target.value)} style={fieldStyle}>
-                      {[1,2,3,4,5,6,7,8,9,10,11,12].map(n => <option key={n} value={n}>{n} {n===1?"persona":"personas"}</option>)}
+                      {Array.from({length: 40}, (_, i) => i + 1).map(n => <option key={n} value={n}>{n} {n===1?"persona":"personas"}</option>)}
                     </select>
                   </div>
                 </div>

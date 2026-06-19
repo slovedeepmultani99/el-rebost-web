@@ -1,7 +1,3 @@
-"use client"
-
-import { useState } from "react"
-
 interface DailyDish {
   id: string
   course: string
@@ -25,18 +21,13 @@ interface DailyMenu {
 }
 
 const DAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
-const DAY_SHORT = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
-const TAB_ORDER = [1, 2, 3, 4, 5, 6, 0]
 const WEEKEND_DAYS = [5, 6, 0]
 
 export default function MenuDia({ menus, today }: { menus: DailyMenu[]; today: number }) {
-  const [activeDay, setActiveDay] = useState(today)
-
   const menuMap = Object.fromEntries(menus.map((m) => [m.dayOfWeek, m]))
-  const menu = menuMap[activeDay]
+  const menu = menuMap[today]
 
-  const isWeekend = WEEKEND_DAYS.includes(activeDay)
-  const isToday = activeDay === today
+  const isWeekend = WEEKEND_DAYS.includes(today)
 
   const primeros = menu?.dishes.filter((d) => d.course === "primero" && !d.isSupplement) ?? []
   const segundos = menu?.dishes.filter((d) => d.course === "segundo" && !d.isSupplement) ?? []
@@ -63,44 +54,6 @@ export default function MenuDia({ menus, today }: { menus: DailyMenu[]; today: n
           <div className="eyebrow">Se actualiza cada día</div>
           <h2>El menú del día</h2>
           <p>Casero, variado y a un precio justo. Cambia cada jornada según el mercado.</p>
-        </div>
-
-        {/* Day tabs */}
-        <div
-          style={{
-            display: "flex",
-            gap: 8,
-            flexWrap: "wrap",
-            justifyContent: "center",
-            marginBottom: 40,
-          }}
-        >
-          {TAB_ORDER.map((d) => {
-            const isWe = WEEKEND_DAYS.includes(d)
-            const isActive = d === activeDay
-            return (
-              <button
-                key={d}
-                onClick={() => setActiveDay(d)}
-                style={{
-                  fontFamily: "var(--font-karla), sans-serif",
-                  fontWeight: 700,
-                  fontSize: ".82rem",
-                  letterSpacing: ".04em",
-                  padding: ".6em 1.1em",
-                  borderRadius: 100,
-                  border: `1.5px solid ${isActive ? (isWe ? "var(--ember)" : "var(--wine)") : "var(--line)"}`,
-                  background: isActive ? (isWe ? "var(--ember)" : "var(--wine)") : "var(--bone)",
-                  color: isActive ? "var(--cream)" : "var(--ink-soft)",
-                  cursor: "pointer",
-                  transition: ".25s",
-                }}
-              >
-                {DAY_SHORT[d]}
-                {d === today ? " · hoy" : ""}
-              </button>
-            )
-          })}
         </div>
 
         {/* Menu card */}
@@ -153,10 +106,10 @@ export default function MenuDia({ menus, today }: { menus: DailyMenu[]; today: n
                       display: "inline-block",
                     }}
                   />
-                  {isToday ? "Menú de hoy · actualizado" : `Propuesta de ${DAY_NAMES[activeDay].toLowerCase()}`}
+                  Menú de hoy · actualizado
                 </div>
                 <h3 style={{ fontSize: "1.9rem", fontWeight: 500, marginTop: 4 }}>
-                  {DAY_NAMES[activeDay]}{isWeekend ? " · Fin de semana" : ""}
+                  {DAY_NAMES[today]}{isWeekend ? " · Fin de semana" : ""}
                 </h3>
               </div>
               <div style={{ textAlign: "right" }}>

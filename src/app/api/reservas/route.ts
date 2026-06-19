@@ -4,8 +4,8 @@ import { auth } from "@/lib/auth"
 import { sendReservationNotification } from "@/lib/email"
 
 const LUNCH_SLOTS = ["13:00", "13:30", "14:00", "14:30", "15:00", "15:30"]
-const DINNER_SLOTS = ["20:00", "20:30", "21:00", "21:30", "22:00", "22:30"]
-const DINNER_DAYS = [5, 6]
+const DINNER_SLOTS = ["19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30"]
+const DINNER_DAYS = [4, 5, 6] // Jueves, Viernes, Sábado
 
 export async function GET(req: Request) {
   const session = await auth()
@@ -34,14 +34,29 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Faltan campos obligatorios" }, { status: 400 })
   }
 
-  if (guests > 12) {
+  if (guests > 40) {
     return NextResponse.json(
-      { error: "Para grupos de más de 12 personas, llámenos directamente al 934 65 30 00" },
+      { error: "Para grupos de más de 40 personas, llámenos directamente al 934 65 30 00" },
       { status: 422 }
     )
   }
 
   const dateObj = new Date(date)
+  const now = new Date()
+  if (dateObj < new Date(now.toISOString().split("T")[0])) {
+    return NextResponse.json({ error: "No se pueden hacer reservas en fechas pasadas" }, { status: 422 })
+  }
+
+  const isToday = dateObj.toISOString().split("T")[0] === now.toISOString().split("T")[0]
+  if (isToday) {
+    const [h, m] = time.split(":").map(Number)
+    const slotMinutes = h * 60 + m
+    const nowMinutes = now.getHours() * 60 + now.getMinutes()
+    if (slotMinutes < nowMinutes + 30) {
+      return NextResponse.json({ error: "La primera reserva disponible es dentro de 30 minutos" }, { status: 422 })
+    }
+  }
+
   const dayOfWeek = dateObj.getDay()
 
   const validSlots = service === "cena" ? DINNER_SLOTS : LUNCH_SLOTS

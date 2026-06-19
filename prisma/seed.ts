@@ -72,6 +72,8 @@ async function main() {
       value: {
         tel: '934 65 30 00',
         ig: '@rebostdemontigala',
+        fb: '',
+        tiktok: '',
         addr: 'Carrer Manuel Moreno Mauricio, 35-37, 08917 Badalona, Barcelona',
         email: '',
       },
