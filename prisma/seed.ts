@@ -11,12 +11,17 @@ async function main() {
   console.log('🌱 Seeding El Rebost de Montigalà...')
 
   // ── Admin user ──────────────────────────────
+  const adminEmail = process.env.ADMIN_EMAIL ?? 'admin@rebostmontigala.com'
+  const adminPassword = process.env.ADMIN_PASSWORD ?? 'rebost2024!'
+  if (!process.env.ADMIN_PASSWORD) {
+    console.warn('⚠️  ADMIN_PASSWORD no definida — usando contraseña por defecto. ¡CÁMBIALA ANTES DE PRODUCCIÓN!')
+  }
   await prisma.adminUser.upsert({
-    where: { email: 'admin@rebostmontigala.com' },
+    where: { email: adminEmail },
     update: {},
     create: {
-      email: 'admin@rebostmontigala.com',
-      password: await bcrypt.hash('rebost2024!', 12),
+      email: adminEmail,
+      password: await bcrypt.hash(adminPassword, 12),
       name: 'Administrador',
       role: 'admin',
     },
@@ -200,7 +205,7 @@ async function main() {
         { name: 'Paella marinera', price: 17.90, sortOrder: 2 },
         { name: 'Arroz negro con sepia, langostino y almejas', price: 17.90, sortOrder: 3 },
         { name: 'Caldereta de bogavante', price: 23.90, sortOrder: 4, isStar: true },
-        { name: 'Arroz caldoso con bogavante', price: 23.90, sortOrder: 5, isStar: true },
+        { name: 'Arroz caldoso con bogavante', description: 'Mariscada', price: 23.90, sortOrder: 5, isStar: true },
       ],
     },
     {
@@ -428,6 +433,28 @@ async function main() {
     }
   }
   console.log('✓ Menús del día (7 días) creados')
+
+  // ── Galería ────────────────────────────────
+  await prisma.galleryImage.deleteMany()
+  const galeriaImages = [
+    { imageUrl: '/fotos/el-rebost-de-montigala.jpg', title: 'El Rebost de Montigalà', sortOrder: 1 },
+    { imageUrl: '/fotos/chuleton.jpg', title: 'Chuletón madurado a la brasa', sortOrder: 2 },
+    { imageUrl: '/fotos/mariscada2.jpg', title: 'Mariscada de la casa', sortOrder: 3 },
+    { imageUrl: '/fotos/Canelon_Rabo_toro.jpg', title: 'Canelón de rabo de toro', sortOrder: 4 },
+    { imageUrl: '/fotos/tapas.jpg', title: 'Tapas de la casa', sortOrder: 5 },
+    { imageUrl: '/fotos/huevos-con-torreznos.jpg', title: 'Huevos con torreznos', sortOrder: 6 },
+    { imageUrl: '/fotos/entrada.jpg', title: 'Entrada del restaurante', sortOrder: 7 },
+    { imageUrl: '/fotos/postre_casero.jpg', title: 'Postre casero del día', sortOrder: 8 },
+    { imageUrl: '/fotos/nuestros-platos-del-dia.jpg', title: 'Platos del día', sortOrder: 9 },
+    { imageUrl: '/fotos/mariscada.jpg', title: 'Mariscada', sortOrder: 10 },
+    { imageUrl: '/fotos/imagen1.jpeg', title: 'El Rebost', sortOrder: 11 },
+    { imageUrl: '/fotos/imagen2.jpeg', title: 'El Rebost', sortOrder: 12 },
+    { imageUrl: '/fotos/imagen3.jpeg', title: 'El Rebost', sortOrder: 13 },
+  ]
+  for (const img of galeriaImages) {
+    await prisma.galleryImage.create({ data: { ...img, active: true } })
+  }
+  console.log(`✓ Galería creada (${galeriaImages.length} imágenes)`)
 
   console.log('')
   console.log('✅ Seed completado correctamente')
