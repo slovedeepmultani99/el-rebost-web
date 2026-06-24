@@ -6,7 +6,6 @@ import Link from "next/link"
 interface Dish { id: string; name: string; description: string | null; price: string | null; isStar: boolean; isVeg: boolean; isSg: boolean }
 interface Section { id: string; title: string; subtitle: string | null; note: string | null; isSalsas: boolean; dishes: Dish[] }
 
-// Page distribution as per CLAUDE.md
 const PAGE1_LEFT = ["Tapas", "Entrantes"]
 const PAGE1_RIGHT = ["Ensaladas", "Huevos", "Pan", "Torradas"]
 const PAGE2_LEFT = ["Pastas y Sopas", "Bacalao"]
@@ -31,8 +30,6 @@ function DishRow({ d }: { d: Dish }) {
       <div style={{ display: "flex", alignItems: "baseline", gap: 4, padding: "2.5px 0" }}>
         <span style={{ fontFamily: "'Fraunces',serif", fontSize: ".9rem", fontWeight: 500, flex: "0 1 auto", lineHeight: 1.22, color: "#2A1A18" }}>
           {d.name}
-          {d.isStar && <span style={{ color: "#C8552B", marginLeft: 4, fontSize: ".7rem" }}>★</span>}
-          {d.isVeg && <span style={{ color: "#4e6236", marginLeft: 4, fontSize: ".58rem", fontWeight: 800, textTransform: "uppercase", letterSpacing: ".04em" }}>VEG</span>}
         </span>
         <span style={{ borderBottom: "1.5px dotted #E4D9C8", flex: 1, minWidth: 5, transform: "translateY(-3px)" }} />
         {d.price
@@ -198,7 +195,7 @@ export default function PrintCartaClient({ sections }: { sections: Section[] }) 
           </div>
           <div style={{ borderTop: "1px solid #E4D9C8", margin: "4mm 13mm 7mm", paddingTop: 4, display: "flex", justifyContent: "space-between", fontSize: ".58rem", color: "#6A554F", flexShrink: 0 }}>
             <span>Consulta nuestra carta de alérgenos · Precios IVA incluido</span>
-            <span style={{ fontWeight: 700, color: "#C8552B" }}>instagram.com/rebostdemontigala</span>
+            <span style={{ fontWeight: 700, color: "#C8552B" }}>instagram.com/elrebostdemontigala.es</span>
           </div>
         </div>
       </div>

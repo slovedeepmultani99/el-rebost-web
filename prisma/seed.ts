@@ -76,9 +76,10 @@ async function main() {
       key: 'info',
       value: {
         tel: '934 65 30 00',
-        ig: '@rebostdemontigala',
-        fb: '',
+        ig: 'https://www.instagram.com/elrebostdemontigala.es/',
+        fb: 'https://www.facebook.com/profile.php?id=61590794408041',
         tiktok: '',
+        tripadvisor: 'https://www.tripadvisor.es/Restaurant_Review-g665816-d2708401-Reviews-El_Rebost_de_Montigala-Badalona_Catalonia.html',
         addr: 'Carrer Manuel Moreno Mauricio, 35-37, 08917 Badalona, Barcelona',
         email: '',
       },

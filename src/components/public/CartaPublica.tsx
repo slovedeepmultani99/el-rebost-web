@@ -21,30 +21,6 @@ interface Section {
   dishes: Dish[]
 }
 
-function Tag({ type }: { type: "star" | "veg" | "sg" }) {
-  const styles = {
-    star: { bg: "rgba(200,85,43,.16)", color: "var(--ember)", label: "★ Estrella" },
-    veg: { bg: "rgba(94,107,62,.16)", color: "var(--olive)", label: "VEG" },
-    sg: { bg: "rgba(188,146,85,.18)", color: "#8a6326", label: "SG" },
-  }[type]
-  return (
-    <span
-      style={{
-        fontSize: ".62rem",
-        fontWeight: 800,
-        letterSpacing: ".08em",
-        textTransform: "uppercase",
-        padding: "2px 7px",
-        borderRadius: 6,
-        background: styles.bg,
-        color: styles.color,
-        whiteSpace: "nowrap",
-      }}
-    >
-      {styles.label}
-    </span>
-  )
-}
 
 export default function CartaPublica({ sections }: { sections: Section[] }) {
   const [active, setActive] = useState(sections[0]?.id ?? "")
@@ -130,9 +106,6 @@ export default function CartaPublica({ sections }: { sections: Section[] }) {
                       <b style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "1.14rem" }}>
                         {d.name}
                       </b>
-                      {d.isStar && <Tag type="star" />}
-                      {d.isVeg && <Tag type="veg" />}
-                      {d.isSg && <Tag type="sg" />}
                     </div>
                     {d.description && (
                       <p style={{ fontSize: ".88rem", color: "var(--ink-soft)", marginTop: 2 }}>
@@ -140,20 +113,10 @@ export default function CartaPublica({ sections }: { sections: Section[] }) {
                       </p>
                     )}
                   </div>
-                  {d.price && (
-                    <span style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 600, fontSize: "1.14rem", color: "var(--wine)", whiteSpace: "nowrap" }}>
-                      {Number(d.price).toFixed(2).replace(".", ",")}€
-                    </span>
-                  )}
                 </div>
               ))}
             </div>
 
-            <p style={{ textAlign: "center", marginTop: 30, fontSize: ".84rem", color: "var(--ink-soft)" }}>
-              <Tag type="star" /> Plato más pedido &nbsp;
-              <Tag type="veg" /> Vegetariano &nbsp;
-              <Tag type="sg" /> Sin gluten bajo petición · Consulta nuestra carta de alérgenos
-            </p>
           </div>
         )}
       </div>

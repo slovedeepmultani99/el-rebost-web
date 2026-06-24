@@ -236,34 +236,6 @@ export default function MenuDia({ menus, today }: { menus: DailyMenu[]; today: n
                       + {s.name} {s.suppPrice && `(${s.suppPrice})`}
                     </span>
                   ))}
-                  <span
-                    style={{
-                      fontSize: ".62rem",
-                      fontWeight: 800,
-                      letterSpacing: ".08em",
-                      textTransform: "uppercase",
-                      padding: "2px 7px",
-                      borderRadius: 6,
-                      background: "rgba(94,107,62,.16)",
-                      color: "var(--olive)",
-                    }}
-                  >
-                    VEG disponible
-                  </span>
-                  <span
-                    style={{
-                      fontSize: ".62rem",
-                      fontWeight: 800,
-                      letterSpacing: ".08em",
-                      textTransform: "uppercase",
-                      padding: "2px 7px",
-                      borderRadius: 6,
-                      background: "rgba(188,146,85,.18)",
-                      color: "#8a6326",
-                    }}
-                  >
-                    SG bajo petición
-                  </span>
                 </div>
               </div>
             </div>
