@@ -3,6 +3,8 @@ import { revalidateTag } from "next/cache"
 import { prisma } from "@/lib/prisma"
 import { auth } from "@/lib/auth"
 
+export const dynamic = "force-dynamic"
+
 export async function GET() {
   const settings = await prisma.setting.findMany()
   const data = Object.fromEntries(settings.map((s) => [s.key, s.value]))
