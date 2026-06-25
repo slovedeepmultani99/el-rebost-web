@@ -23,7 +23,7 @@ interface DailyMenu {
 const DAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
 const WEEKEND_DAYS = [5, 6, 0]
 
-export default function MenuDia({ menus, today }: { menus: DailyMenu[]; today: number }) {
+export default function MenuDia({ menus, today, isNextDay = false }: Readonly<{ menus: DailyMenu[]; today: number; isNextDay?: boolean }>) {
   const menuMap = Object.fromEntries(menus.map((m) => [m.dayOfWeek, m]))
   const menu = menuMap[today]
 
@@ -106,7 +106,7 @@ export default function MenuDia({ menus, today }: { menus: DailyMenu[]; today: n
                       display: "inline-block",
                     }}
                   />
-                  Menú de hoy · actualizado
+                  {isNextDay ? "Menú de mañana · avance" : "Menú de hoy · actualizado"}
                 </div>
                 <h3 style={{ fontSize: "1.9rem", fontWeight: 500, marginTop: 4 }}>
                   {DAY_NAMES[today]}{isWeekend ? " · Fin de semana" : ""}

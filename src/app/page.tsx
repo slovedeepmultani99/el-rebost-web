@@ -66,9 +66,22 @@ async function getData() {
   return { cms, carta, menus, galeria }
 }
 
+function getDisplayDay(menus: { dayOfWeek: number; active: boolean; dishes: unknown[] }[]): { day: number; isNextDay: boolean } {
+  const now = new Date()
+  const currentDay = now.getDay()
+  if (now.getHours() >= 18) {
+    const tomorrow = (currentDay + 1) % 7
+    const tomorrowMenu = menus.find((m) => m.dayOfWeek === tomorrow)
+    if (tomorrowMenu?.active && tomorrowMenu.dishes.length > 0) {
+      return { day: tomorrow, isNextDay: true }
+    }
+  }
+  return { day: currentDay, isNextDay: false }
+}
+
 export default async function Home() {
   const { cms, carta, menus, galeria } = await getData()
-  const today = new Date().getDay()
+  const { day: today, isNextDay } = getDisplayDay(menus)
 
   return (
     <>
@@ -76,7 +89,7 @@ export default async function Home() {
       <Nav />
       <Hero data={cms.hero} />
       <Esencia casa={cms.casa} features={cms.features} stats={cms.stats} />
-      <MenuDia menus={menus} today={today} />
+      <MenuDia menus={menus} today={today} isNextDay={isNextDay} />
       <CartaPublica sections={carta} />
       <Reservas info={cms.info} horarios={cms.horarios} />
       <Resenas />
