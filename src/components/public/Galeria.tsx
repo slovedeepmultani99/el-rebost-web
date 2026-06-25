@@ -1,22 +1,8 @@
 interface GalleryImage { id: string; imageUrl: string; title: string | null }
 
-const PLACEHOLDER_TILES = [
-  { img: "1544025162-d76694265947", t: "Chuletón a la brasa", big: true },
-  { img: "1534080564583-6be75777b70a", t: "Arroces caseros" },
-  { img: "1565299624946-b28f40a0ae38", t: "Tapas para compartir" },
-  { img: "1414235077428-338989a2e8c0", t: "Salón rústico" },
-  { img: "1551782450-a2132b4ba21d", t: "Producto de mercado" },
-  { img: "1559339352-11d035aa65de", t: "Bodega de vinos" },
-]
-
 export default function Galeria({ images }: { images: GalleryImage[] }) {
-  const tiles = images.length > 0
-    ? images.map((img, i) => ({ url: img.imageUrl, title: img.title ?? "", big: i === 0 }))
-    : PLACEHOLDER_TILES.map((p) => ({
-        url: `https://images.unsplash.com/photo-${p.img}?auto=format&fit=crop&w=700&q=70`,
-        title: p.t,
-        big: p.big ?? false,
-      }))
+  if (images.length === 0) return null
+  const tiles = images.map((img, i) => ({ url: img.imageUrl, title: img.title ?? "", big: i === 0 }))
 
   return (
     <section

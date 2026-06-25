@@ -54,8 +54,10 @@ export default async function AvisoLegalPage() {
               body: `En cumplimiento de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico, se informa que el titular de este sitio web es:
 
 Denominación social: El Rebost de Montigalà
+NIF/CIF: [INSERTAR NIF/CIF DEL TITULAR]
 Domicilio: ${cms.info?.addr ?? "Carrer Manuel Moreno Mauricio, 35-37, 08917 Badalona, Barcelona"}
-Teléfono: ${cms.info?.tel ?? "934 65 30 00"}`,
+Teléfono: ${cms.info?.tel ?? "934 65 30 00"}
+Correo electrónico: ${cms.info?.email || "[INSERTAR EMAIL DE CONTACTO]"}`,
             },
             {
               title: "2. Objeto y ámbito de aplicación",

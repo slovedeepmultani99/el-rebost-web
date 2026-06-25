@@ -95,7 +95,7 @@ export const metadata: Metadata = {
       "Brasería catalana en Badalona. Menú del día desde 16€, arroces caseros y carnes a la brasa. Reserva tu mesa online.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/logo.jpg",
         width: 1200,
         height: 630,
         alt: "El Rebost de Montigalà — Brasería en Badalona",
@@ -106,7 +106,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "El Rebost de Montigalà | Brasería Badalona",
     description: "Menú del día, tapas, arroces y carnes a la brasa en el barrio de Montigalà, Badalona.",
-    images: ["/og-image.jpg"],
+    images: ["/logo.jpg"],
+  },
+  icons: {
+    icon: "/logo.jpg",
+    apple: "/logo.jpg",
   },
   alternates: {
     canonical: SITE_URL,
@@ -170,27 +174,21 @@ const restaurantSchema = {
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday"],
-      opens: "13:00",
-      closes: "16:00",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "11:30",
+      closes: "17:00",
     },
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Friday", "Saturday"],
-      opens: "13:00",
-      closes: "16:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Friday", "Saturday"],
-      opens: "20:00",
+      dayOfWeek: ["Wednesday", "Thursday"],
+      opens: "19:30",
       closes: "23:00",
     },
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Sunday"],
-      opens: "13:00",
-      closes: "16:00",
+      dayOfWeek: ["Friday", "Saturday"],
+      opens: "19:30",
+      closes: "24:00",
     },
   ],
   sameAs: [
@@ -246,7 +244,7 @@ const faqSchema = {
       name: "¿Cuál es el horario de El Rebost de Montigalà?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Abrimos de lunes a domingo para las comidas de mediodía de 13:00 a 16:00 h. Las cenas solo están disponibles los viernes y sábados, de 20:00 a 23:00 h.",
+        text: "Abrimos de lunes a domingo para las comidas de mediodía de 11:30 a 17:00 h. Las cenas están disponibles de miércoles a sábado, de 19:30 a 23:00 h (hasta las 24:00 h viernes y sábado).",
       },
     },
     {
@@ -262,7 +260,7 @@ const faqSchema = {
       name: "¿Se puede reservar mesa online en El Rebost de Montigalà?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Sí, puedes hacer tu reserva directamente desde el formulario de nuestra web o llamarnos al 934 653 000. Para grupos de más de 12 personas es necesario contactar por teléfono.",
+        text: "Sí, puedes hacer tu reserva directamente desde el formulario de nuestra web o llamarnos al 934 65 30 00. Para grupos de más de 40 personas es necesario contactar por teléfono.",
       },
     },
     {

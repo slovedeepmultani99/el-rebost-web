@@ -8,9 +8,9 @@ interface Horario { dias: string; horas: string; nota: string }
 
 const LUNCH_SLOTS = ["13:00", "13:30", "14:00", "14:30", "15:00", "15:30"]
 const DINNER_SLOTS = ["19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30"]
-const DINNER_DAYS = [4, 5, 6] // Jueves, Viernes, Sábado
+const DINNER_DAYS = [3, 4, 5, 6] // Miércoles, Jueves, Viernes, Sábado
 
-const todayStr = () => new Date().toISOString().split("T")[0]
+const todayStr = () => new Date().toLocaleDateString("sv")
 const minSlotTime = () => {
   const d = new Date(Date.now() + 30 * 60 * 1000)
   return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`
@@ -97,7 +97,7 @@ export default function Reservas({ info, horarios }: { info: InfoData; horarios:
             </p>
             {[
               { ic: "🍽", title: "Comidas todos los días", sub: "De 13:00 a 16:00 h" },
-              { ic: "🌙", title: "Cenas viernes y sábado", sub: "De 20:00 a 23:00 h" },
+              { ic: "🌙", title: "Cenas miércoles a sábado", sub: "De 19:30 a 23:00 h" },
               { ic: "🔥", title: "¿Grupos de +40?", sub: `Llámanos al ${info.tel}` },
               { ic: "🅿️", title: "Fácil aparcamiento", sub: "Junto al CC Montigalà · parking a 80 m" },
             ].map((f, i) => (
@@ -141,7 +141,7 @@ export default function Reservas({ info, horarios }: { info: InfoData; horarios:
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 16 }}>
                   <div>
                     <label htmlFor="res-date" style={labelStyle}>Fecha</label>
-                    <input id="res-date" type="date" required value={form.date} min={new Date().toISOString().split("T")[0]} onChange={(e) => set("date", e.target.value)} style={fieldStyle} />
+                    <input id="res-date" type="date" required value={form.date} min={new Date().toLocaleDateString("sv")} onChange={(e) => set("date", e.target.value)} style={fieldStyle} />
                   </div>
                   <div>
                     <label htmlFor="res-guests" style={labelStyle}>Comensales</label>
@@ -161,7 +161,7 @@ export default function Reservas({ info, horarios }: { info: InfoData; horarios:
                       </button>
                     ))}
                   </div>
-                  {dinnerDisabled && form.date && <p style={{ fontSize: ".8rem", color: "var(--ember)", marginTop: 4 }}>Las cenas solo están disponibles viernes y sábado.</p>}
+                  {dinnerDisabled && form.date && <p style={{ fontSize: ".8rem", color: "var(--ember)", marginTop: 4 }}>Las cenas están disponibles de miércoles a sábado.</p>}
                 </fieldset>
 
                 {/* Slots */}

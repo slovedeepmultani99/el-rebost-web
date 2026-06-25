@@ -10,6 +10,10 @@ interface ReservationEmailData {
   phone: string
 }
 
+function esc(s: string) {
+  return s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;")
+}
+
 export async function sendReservationNotification(data: ReservationEmailData) {
   if (!process.env.RESEND_API_KEY) return
   const resend = new Resend(process.env.RESEND_API_KEY)
@@ -21,21 +25,24 @@ export async function sendReservationNotification(data: ReservationEmailData) {
     day: "numeric",
   })
 
+  const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL ?? "admin@rebostmontigala.com"
+  const FROM_EMAIL = process.env.FROM_EMAIL ?? "reservas@elrebostdemontigala.com"
+
   await resend.emails.send({
-    from: "El Rebost de Montigalà <reservas@rebostmontigala.com>",
-    to: ["admin@rebostmontigala.com"],
-    subject: `Nueva reserva: ${data.name} · ${dateStr} ${data.time}`,
+    from: `El Rebost de Montigalà <${FROM_EMAIL}>`,
+    to: [NOTIFY_EMAIL],
+    subject: `Nueva reserva: ${esc(data.name)} · ${dateStr} ${data.time}`,
     html: `
       <div style="font-family:sans-serif;max-width:520px;margin:0 auto">
         <h2 style="color:#5C1A2B">Nueva reserva recibida</h2>
         <table style="width:100%;border-collapse:collapse">
-          <tr><td style="padding:6px 0;color:#6A554F;width:120px">Nombre</td><td><strong>${data.name}</strong></td></tr>
+          <tr><td style="padding:6px 0;color:#6A554F;width:120px">Nombre</td><td><strong>${esc(data.name)}</strong></td></tr>
           <tr><td style="padding:6px 0;color:#6A554F">Fecha</td><td>${dateStr}</td></tr>
           <tr><td style="padding:6px 0;color:#6A554F">Hora</td><td>${data.time}</td></tr>
           <tr><td style="padding:6px 0;color:#6A554F">Servicio</td><td>${serviceLabel}</td></tr>
           <tr><td style="padding:6px 0;color:#6A554F">Comensales</td><td>${data.guests} personas</td></tr>
-          <tr><td style="padding:6px 0;color:#6A554F">Teléfono</td><td>${data.phone}</td></tr>
-          ${data.notes ? `<tr><td style="padding:6px 0;color:#6A554F">Notas</td><td>${data.notes}</td></tr>` : ""}
+          <tr><td style="padding:6px 0;color:#6A554F">Teléfono</td><td>${esc(data.phone)}</td></tr>
+          ${data.notes ? `<tr><td style="padding:6px 0;color:#6A554F">Notas</td><td>${esc(data.notes)}</td></tr>` : ""}
         </table>
         <p style="margin-top:20px;color:#6A554F;font-size:12px">El Rebost de Montigalà · Carrer Manuel Moreno Mauricio, 35-37, Badalona</p>
       </div>

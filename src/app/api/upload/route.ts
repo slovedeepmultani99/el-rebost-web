@@ -11,6 +11,9 @@ export async function POST(req: Request) {
   const bucket = (formData.get("bucket") as string) || "galeria"
 
   if (!file) return NextResponse.json({ error: "No se recibió archivo" }, { status: 400 })
+  if (!file.type.startsWith("image/")) {
+    return NextResponse.json({ error: "Solo se permiten imágenes" }, { status: 400 })
+  }
 
   const ext = file.name.split(".").pop()
   const filename = `${bucket}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`

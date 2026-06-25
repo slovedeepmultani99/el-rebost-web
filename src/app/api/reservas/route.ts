@@ -5,7 +5,7 @@ import { sendReservationNotification } from "@/lib/email"
 
 const LUNCH_SLOTS = ["13:00", "13:30", "14:00", "14:30", "15:00", "15:30"]
 const DINNER_SLOTS = ["19:30", "20:00", "20:30", "21:00", "21:30", "22:00", "22:30"]
-const DINNER_DAYS = [4, 5, 6] // Jueves, Viernes, Sábado
+const DINNER_DAYS = [3, 4, 5, 6] // Miércoles, Jueves, Viernes, Sábado
 
 export async function GET(req: Request) {
   const session = await auth()
@@ -66,7 +66,7 @@ export async function POST(req: Request) {
 
   if (service === "cena" && !DINNER_DAYS.includes(dayOfWeek)) {
     return NextResponse.json(
-      { error: "Las cenas solo están disponibles viernes y sábado" },
+      { error: "Las cenas están disponibles de miércoles a sábado" },
       { status: 422 }
     )
   }

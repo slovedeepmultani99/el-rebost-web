@@ -52,8 +52,10 @@ export default async function PrivacidadPage() {
             {
               title: "1. Responsable del tratamiento",
               body: `Denominación: El Rebost de Montigalà
+NIF/CIF: [INSERTAR NIF/CIF DEL TITULAR]
 Dirección: ${cms.info?.addr ?? "Carrer Manuel Moreno Mauricio, 35-37, 08917 Badalona, Barcelona"}
-Teléfono: ${cms.info?.tel ?? "934 65 30 00"}`,
+Teléfono: ${cms.info?.tel ?? "934 65 30 00"}
+Correo electrónico: ${cms.info?.email || "[INSERTAR EMAIL DE CONTACTO]"}`,
             },
             {
               title: "2. Datos que recopilamos y finalidad",

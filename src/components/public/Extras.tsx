@@ -1,4 +1,4 @@
-import { WaIcon, waTakeawayUrl, waMenuUrl, waReservaUrl } from "./WhatsAppButton"
+import { WaIcon, waTakeawayUrl, waReservaUrl } from "./WhatsAppButton"
 
 export default function Extras() {
   return (
@@ -80,38 +80,7 @@ export default function Extras() {
           </div>
         </div>
 
-        {/* WhatsApp strip — menú del día */}
-        <div
-          style={{
-            background: "var(--cream)",
-            borderRadius: 24,
-            padding: 38,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 24,
-            flexWrap: "wrap" as const,
-            border: "1px solid var(--line)",
-          }}
-        >
-          <div>
-            <div className="eyebrow">Novedad</div>
-            <h3 style={{ fontSize: "1.7rem", margin: "8px 0 6px" }}>Recibe el menú del día por WhatsApp</h3>
-            <p style={{ color: "var(--ink-soft)", maxWidth: "34em" }}>
-              Cada mañana te enviamos la propuesta del día. Sin spam, solo buena comida.
-            </p>
-          </div>
-          <a
-            href={waMenuUrl()}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-primary"
-            style={{ display: "inline-flex", alignItems: "center", gap: 9 }}
-          >
-            <WaIcon size={18} />
-            Apuntarme al menú
-          </a>
-        </div>
+
       </div>
     </section>
   )

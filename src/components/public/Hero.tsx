@@ -104,6 +104,7 @@ export default function Hero({ data }: { data: HeroData }) {
         {/* Right: visual */}
         <div className="relative h-[430px] hidden lg:block">
           {/* Plate 1 — top right */}
+          {/* Plate 1 — top right */}
           <div
             className="absolute rounded-[20px] overflow-hidden"
             style={{
@@ -113,8 +114,7 @@ export default function Hero({ data }: { data: HeroData }) {
               top: 0,
               border: "6px solid rgba(245,237,224,.9)",
               boxShadow: "0 30px 60px -20px rgba(0,0,0,.6)",
-              backgroundImage:
-                "linear-gradient(135deg,rgba(122,46,22,.2),rgba(58,15,27,.5)), url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=70')",
+              backgroundImage: "linear-gradient(135deg,rgba(122,46,22,.15),rgba(58,15,27,.4)), url('/fotos/chuleton.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -156,8 +156,7 @@ export default function Hero({ data }: { data: HeroData }) {
               bottom: 0,
               border: "6px solid rgba(245,237,224,.9)",
               boxShadow: "0 30px 60px -20px rgba(0,0,0,.6)",
-              backgroundImage:
-                "linear-gradient(135deg,rgba(74,90,48,.2),rgba(58,15,27,.45)), url('https://images.unsplash.com/photo-1534080564583-6be75777b70a?auto=format&fit=crop&w=600&q=70')",
+              backgroundImage: "linear-gradient(135deg,rgba(74,90,48,.15),rgba(58,15,27,.4)), url('/fotos/mariscada2.jpg')",
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
