@@ -44,7 +44,7 @@ export default function Nav({ showResenas = true }: Readonly<{ showResenas?: boo
               <b style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 600, fontSize: "1.18rem", letterSpacing: "-0.01em", display: "block", color: "var(--wine)" }}>
                 El Rebost
               </b>
-              <span style={{ fontSize: "0.62rem", letterSpacing: "0.34em", textTransform: "uppercase", color: "var(--ink-soft)", fontWeight: 700 }}>
+              <span className="nav-brand-sub" style={{ fontSize: "0.62rem", letterSpacing: "0.34em", textTransform: "uppercase", color: "var(--ink-soft)", fontWeight: 700 }}>
                 de Montigalà
               </span>
             </span>
@@ -71,7 +71,7 @@ export default function Nav({ showResenas = true }: Readonly<{ showResenas?: boo
           {/* CTAs + burger */}
           <div className="flex gap-3 items-center">
             <a href="tel:+34934653000" className="btn btn-ghost hidden lg:inline-flex">Llamar</a>
-            <a href="#reservas" className="btn btn-primary">Reservar mesa</a>
+            <a href="#reservas" className="btn btn-primary nav-reservar">Reservar mesa</a>
             <button
               className="lg:hidden flex flex-col gap-[5px] p-1.5 bg-none border-none cursor-pointer"
               onClick={() => setMobileOpen(true)}

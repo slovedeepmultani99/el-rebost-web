@@ -148,3 +148,31 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 580px) {
   .mob-sm-1col { grid-template-columns: 1fr !important; }
 }
+
+/* ── Mobile section padding ── */
+@media (max-width: 640px) {
+  section[id] { padding-top: 62px !important; padding-bottom: 62px !important; }
+  .sec-head { margin-bottom: 36px !important; }
+  .wrap { padding-left: 18px !important; padding-right: 18px !important; }
+}
+
+/* ── Nav mobile tweaks ── */
+/* Make "Reservar mesa" button compact on narrow screens so it doesn't clip the logo */
+@media (max-width: 520px) {
+  .nav-reservar { padding: .58em .9em !important; font-size: .8rem !important; }
+  .nav-brand-sub { letter-spacing: .12em !important; font-size: .55rem !important; }
+}
+
+/* ── Horarios table row ── */
+.horario-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 7px 0;
+  border-bottom: 1px solid rgba(245,237,224,.08);
+  gap: 8px;
+}
+@media (max-width: 480px) {
+  .horario-row { flex-direction: column; gap: 1px; }
+  .horario-row .horario-time { font-size: .82rem; opacity: .82; }
+}

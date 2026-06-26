@@ -37,7 +37,7 @@ export default function Hero({ data }: { data: HeroData }) {
           linear-gradient(160deg, #5C1A2B 0%, #3A0F1B 100%)
         `,
         color: "var(--cream)",
-        padding: "96px 0 90px",
+        padding: "clamp(56px,8vw,96px) 0 clamp(50px,7vw,90px)",
       }}
     >
       {/* Dot grid overlay */}
@@ -50,21 +50,23 @@ export default function Hero({ data }: { data: HeroData }) {
         }}
       />
 
-      <div className="wrap relative" style={{ display: "grid", gridTemplateColumns: "1.15fr .85fr", gap: 48, alignItems: "center" }}>
+      <div className="mob-stack wrap relative" style={{ display: "grid", gridTemplateColumns: "1.15fr .85fr", gap: 48, alignItems: "center" }}>
         {/* Left: text */}
         <div>
           {/* Badge */}
           <div
-            className="inline-flex items-center gap-2 mb-6 rounded-full text-xs font-bold"
+            className="inline-flex items-center gap-2 mb-5 rounded-full font-bold"
             style={{
               background: "rgba(245,237,224,.12)",
               border: "1px solid rgba(245,237,224,.25)",
-              padding: "7px 15px",
-              letterSpacing: ".05em",
+              padding: "6px 13px",
+              letterSpacing: ".04em",
+              fontSize: "clamp(.68rem,.9vw,.74rem)",
+              maxWidth: "100%",
             }}
           >
-            <span style={{ color: "var(--ember-bright)", letterSpacing: ".08em" }}>★★★★☆</span>
-            {data.badge.replace("★★★★☆ ", "")}
+            <span style={{ color: "var(--ember-bright)", letterSpacing: ".06em", flexShrink: 0 }}>★★★★☆</span>
+            <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{data.badge.replace("★★★★☆ ", "")}</span>
           </div>
 
           {/* H1 */}
@@ -85,7 +87,7 @@ export default function Hero({ data }: { data: HeroData }) {
           {/* Lead */}
           <p
             className="mb-8"
-            style={{ fontSize: "1.18rem", maxWidth: "30em", color: "rgba(245,237,224,.86)" }}
+            style={{ fontSize: "clamp(1rem,2.5vw,1.18rem)", maxWidth: "30em", color: "rgba(245,237,224,.86)" }}
           >
             {data.lead}
           </p>

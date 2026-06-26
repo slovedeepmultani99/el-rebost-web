@@ -10,8 +10,18 @@ function getHorarioIdx(day: number): number {
   return 3 // Sunday
 }
 
-export default function Contacto({ info, horarios }: { info: InfoData; horarios: Horario[] }) {
+function igHandle(url: string): string {
+  if (!url) return url
+  if (!url.startsWith("http")) return url
+  const parts = url.replace(/\/$/, "").split("/").filter(Boolean)
+  return "@" + (parts.at(-1) ?? url)
+}
+
+export default function Contacto({ info, horarios }: Readonly<{ info: InfoData; horarios: readonly Horario[] }>) {
   const todayIdx = getHorarioIdx(new Date().getDay())
+
+  const igHref = info.ig.startsWith("http") ? info.ig : `https://instagram.com/${info.ig.replace("@", "")}`
+  const igDisplay = igHandle(info.ig)
 
   return (
     <section
@@ -30,18 +40,18 @@ export default function Contacto({ info, horarios }: { info: InfoData; horarios:
             {[
               { ic: "📍", title: "Dirección", content: info.addr },
               { ic: "📞", title: "Reservas", content: info.tel, href: `tel:+34${info.tel.replace(/\s/g,"")}` },
-              { ic: "📸", title: "Síguenos", content: info.ig, href: `https://instagram.com/${info.ig.replace("@","")}` },
-            ].map((c, i) => (
-              <div key={i} style={{ display: "flex", gap: 14, alignItems: "flex-start", marginBottom: 18 }}>
+              { ic: "📸", title: "Síguenos", content: igDisplay, href: igHref },
+            ].map((c) => (
+              <div key={c.title} style={{ display: "flex", gap: 14, alignItems: "flex-start", marginBottom: 18 }}>
                 <span style={{ width: 42, height: 42, flexShrink: 0, borderRadius: 12, background: "rgba(245,237,224,.1)", display: "grid", placeItems: "center", color: "var(--ember-bright)", fontSize: "1.1rem" }}>
                   {c.ic}
                 </span>
-                <div>
+                <div style={{ minWidth: 0 }}>
                   <b style={{ fontFamily: "var(--font-fraunces), serif", fontSize: "1.05rem", display: "block" }}>{c.title}</b>
                   {c.href ? (
-                    <a href={c.href} style={{ fontSize: ".92rem", color: "rgba(245,237,224,.82)" }}>{c.content}</a>
+                    <a href={c.href} style={{ fontSize: ".92rem", color: "rgba(245,237,224,.82)", wordBreak: "break-word" }}>{c.content}</a>
                   ) : (
-                    <span style={{ fontSize: ".92rem", color: "rgba(245,237,224,.82)" }}>{c.content}</span>
+                    <span style={{ fontSize: ".92rem", color: "rgba(245,237,224,.82)", wordBreak: "break-word" }}>{c.content}</span>
                   )}
                 </div>
               </div>
@@ -51,13 +61,10 @@ export default function Contacto({ info, horarios }: { info: InfoData; horarios:
             <div style={{ marginTop: 26, borderTop: "1px solid rgba(245,237,224,.2)", paddingTop: 18 }}>
               {horarios.map((h, i) => (
                 <div
-                  key={i}
+                  key={h.dias}
+                  className="horario-row"
                   style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    padding: "6px 0",
                     fontSize: ".92rem",
-                    borderBottom: "1px solid rgba(245,237,224,.08)",
                     color: i === todayIdx ? "var(--ember-bright)" : "var(--cream)",
                     fontWeight: i === todayIdx ? 700 : 400,
                   }}
@@ -65,14 +72,14 @@ export default function Contacto({ info, horarios }: { info: InfoData; horarios:
                   <b style={{ fontWeight: 600 }}>
                     {h.dias}{i === todayIdx ? " · hoy" : ""}
                   </b>
-                  <span style={{ opacity: i === todayIdx ? 1 : 0.82 }}>{h.horas}</span>
+                  <span className="horario-time" style={{ opacity: i === todayIdx ? 1 : 0.82 }}>{h.horas}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Map */}
-          <div style={{ borderRadius: 24, overflow: "hidden", height: 440, position: "relative", boxShadow: "var(--shadow)" }}>
+          <div style={{ borderRadius: 24, overflow: "hidden", height: "clamp(260px, 50vw, 440px)", position: "relative", boxShadow: "var(--shadow)" }}>
             <iframe
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
