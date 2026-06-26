@@ -95,7 +95,7 @@ export const metadata: Metadata = {
       "Brasería catalana en Badalona. Menú del día desde 16€, arroces caseros y carnes a la brasa. Reserva tu mesa online.",
     images: [
       {
-        url: "/logo.jpg",
+        url: "/logo.png",
         width: 1200,
         height: 630,
         alt: "El Rebost de Montigalà — Brasería en Badalona",
@@ -106,11 +106,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "El Rebost de Montigalà | Brasería Badalona",
     description: "Menú del día, tapas, arroces y carnes a la brasa en el barrio de Montigalà, Badalona.",
-    images: ["/logo.jpg"],
+    images: ["/logo.png"],
   },
   icons: {
-    icon: "/logo.jpg",
-    apple: "/logo.jpg",
+    icon: "/logo.png",
+    apple: "/logo.png",
   },
   alternates: {
     canonical: SITE_URL,

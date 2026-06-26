@@ -33,11 +33,12 @@ export default function Nav({ showResenas = true }: Readonly<{ showResenas?: boo
           {/* Brand */}
           <Link href="#top" className="flex items-center gap-3">
             <Image
-              src="/logo.jpg"
+              src="/logo.png"
               alt="El Rebost de Montigalà"
-              width={46}
-              height={46}
-              className="flex-none rounded-full object-cover"
+              width={54}
+              height={54}
+              className="flex-none object-contain"
+              style={{ borderRadius: "50%", background: "var(--wine-deep)" }}
               priority
             />
             <span style={{ lineHeight: 1 }}>
