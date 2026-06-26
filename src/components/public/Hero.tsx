@@ -113,6 +113,27 @@ export default function Hero({ data }: { data: HeroData }) {
               {data.meta2s}
             </div>
           </div>
+
+          {/* Mobile-only food photos — hidden on lg+ where the floating cards are shown */}
+          <div className="lg:hidden" style={{ display: "flex", gap: 10, marginTop: 28 }}>
+            {[
+              { url: p1Url, badge: p1Badge, name: p1Name, tint: "rgba(122,46,22,.35)" },
+              { url: p2Url, badge: p2Badge, name: p2Name, tint: "rgba(58,15,27,.35)" },
+            ].map((pl) => (
+              <div key={pl.url} style={{ flex: 1, borderRadius: 16, overflow: "hidden", position: "relative", height: 154, border: "3px solid rgba(245,237,224,.5)" }}>
+                <div style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(135deg,${pl.tint},rgba(58,15,27,.2)), url('${pl.url}')`, backgroundSize: "cover", backgroundPosition: "center" }} />
+                <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(58,15,27,.82) 0%, transparent 55%)" }} />
+                <div style={{ position: "absolute", bottom: 10, left: 10, right: 10 }}>
+                  <span style={{ display: "inline-block", background: "var(--ember)", color: "#fff", fontSize: ".6rem", fontWeight: 700, padding: "2px 8px", borderRadius: 100, letterSpacing: ".08em", marginBottom: 3, textTransform: "uppercase" }}>
+                    {pl.badge}
+                  </span>
+                  <p style={{ margin: 0, fontSize: ".8rem", fontFamily: "var(--font-fraunces), serif", color: "var(--cream)", lineHeight: 1.25 }}>
+                    {pl.name}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Right: visual */}

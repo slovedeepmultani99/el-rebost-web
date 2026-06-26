@@ -114,7 +114,7 @@ export default function Reservas({ info, horarios }: { info: InfoData; horarios:
           </div>
 
           {/* Form card */}
-          <div style={{ background: "var(--bone)", color: "var(--ink)", borderRadius: 24, padding: 34, boxShadow: "0 30px 70px -20px rgba(0,0,0,.6)" }}>
+          <div className="res-card" style={{ background: "var(--bone)", color: "var(--ink)", borderRadius: 24, padding: 34, boxShadow: "0 30px 70px -20px rgba(0,0,0,.6)" }}>
             <h3 style={{ fontSize: "1.5rem", marginBottom: 4 }}>Haz tu reserva</h3>
             <p style={{ fontSize: ".9rem", color: "var(--ink-soft)", marginBottom: 22 }}>El Rebost de Montigalà · Badalona</p>
 
@@ -138,7 +138,7 @@ export default function Reservas({ info, horarios }: { info: InfoData; horarios:
             ) : (
               <form onSubmit={handleSubmit}>
                 {/* Date + guests */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 16 }}>
+                <div className="res-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 16 }}>
                   <div>
                     <label htmlFor="res-date" style={labelStyle}>Fecha</label>
                     <input id="res-date" type="date" required value={form.date} min={new Date().toLocaleDateString("sv")} onChange={(e) => set("date", e.target.value)} style={fieldStyle} />
@@ -177,7 +177,7 @@ export default function Reservas({ info, horarios }: { info: InfoData; horarios:
                 </fieldset>
 
                 {/* Name + phone */}
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 16 }}>
+                <div className="res-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 16 }}>
                   <div>
                     <label htmlFor="res-name" style={labelStyle}>Nombre</label>
                     <input id="res-name" required value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Tu nombre" style={fieldStyle} />

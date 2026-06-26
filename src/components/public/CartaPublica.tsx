@@ -38,16 +38,13 @@ export default function CartaPublica({ sections }: { sections: Section[] }) {
           <p>De la tapa tradicional al chuletón madurado. Producto, brasa y arroces caseros.</p>
         </div>
 
-        {/* Section tabs */}
+        {/* Section tabs — horizontal scroll on mobile */}
         <div
+          className="carta-tabs"
           style={{
-            display: "flex",
-            gap: 6,
-            flexWrap: "wrap",
-            justifyContent: "center",
-            marginBottom: 42,
+            marginBottom: 32,
+            paddingBottom: 12,
             borderBottom: "1px solid var(--line)",
-            paddingBottom: 18,
           }}
         >
           {sections.map((s) => (
@@ -55,13 +52,17 @@ export default function CartaPublica({ sections }: { sections: Section[] }) {
               key={s.id}
               onClick={() => setActive(s.id)}
               style={{
+                flexShrink: 0,
+                scrollSnapAlign: "start",
+                whiteSpace: "nowrap",
                 fontFamily: "var(--font-karla), sans-serif",
                 fontWeight: 700,
-                fontSize: ".9rem",
+                fontSize: ".88rem",
                 padding: ".5em 1.1em",
                 borderRadius: 100,
-                border: "none",
-                background: s.id === active ? "var(--wine)" : "none",
+                border: "1.5px solid",
+                borderColor: s.id === active ? "var(--wine)" : "var(--line)",
+                background: s.id === active ? "var(--wine)" : "transparent",
                 color: s.id === active ? "var(--cream)" : "var(--ink-soft)",
                 cursor: "pointer",
                 transition: ".2s",
@@ -81,6 +82,7 @@ export default function CartaPublica({ sections }: { sections: Section[] }) {
               </p>
             )}
             <div
+              className={current.isSalsas ? "carta-salsas" : "carta-dishes"}
               style={{
                 display: "grid",
                 gridTemplateColumns: current.isSalsas ? "repeat(4,1fr)" : "1fr 1fr",
