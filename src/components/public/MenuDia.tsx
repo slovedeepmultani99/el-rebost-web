@@ -30,8 +30,9 @@ export default function MenuDia({ menus, today, isNextDay = false }: Readonly<{ 
   const isWeekend = WEEKEND_DAYS.includes(today)
 
   const primeros = menu?.dishes.filter((d) => d.course === "primero" && !d.isSupplement) ?? []
+  const suplPrimeros = menu?.dishes.filter((d) => d.course === "primero" && d.isSupplement) ?? []
   const segundos = menu?.dishes.filter((d) => d.course === "segundo" && !d.isSupplement) ?? []
-  const suplementos = menu?.dishes.filter((d) => d.isSupplement) ?? []
+  const suplSegundos = menu?.dishes.filter((d) => d.course === "segundo" && d.isSupplement) ?? []
 
   const inclusions = !menu ? [] : [
     menu.inclBread && "Pan",
@@ -150,18 +151,18 @@ export default function MenuDia({ menus, today, isNextDay = false }: Readonly<{ 
                   Para empezar — elige uno
                 </h4>
                 {primeros.map((d) => (
-                  <div
-                    key={d.id}
-                    style={{ padding: "9px 0", borderBottom: "1px dashed var(--line)" }}
-                  >
-                    <b style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "1.06rem" }}>
-                      {d.name}
-                    </b>
-                    {d.description && (
-                      <p style={{ fontSize: ".84rem", color: "var(--ink-soft)", marginTop: 1 }}>
-                        {d.description}
-                      </p>
-                    )}
+                  <div key={d.id} style={{ padding: "9px 0", borderBottom: "1px dashed var(--line)" }}>
+                    <b style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "1.06rem" }}>{d.name}</b>
+                    {d.description && <p style={{ fontSize: ".84rem", color: "var(--ink-soft)", marginTop: 1 }}>{d.description}</p>}
+                  </div>
+                ))}
+                {suplPrimeros.map((d) => (
+                  <div key={d.id} style={{ padding: "8px 10px", margin: "6px 0 0", borderRadius: 8, background: "rgba(200,85,43,.07)", border: "1px dashed rgba(200,85,43,.3)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
+                      <b style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "1rem", color: "var(--ember)" }}>+ {d.name}</b>
+                      {d.suppPrice && <span style={{ fontSize: ".78rem", fontWeight: 800, color: "var(--ember)", whiteSpace: "nowrap" }}>{d.suppPrice}</span>}
+                    </div>
+                    {d.description && <p style={{ fontSize: ".82rem", color: "var(--ink-soft)", marginTop: 1 }}>{d.description}</p>}
                   </div>
                 ))}
               </div>
@@ -184,59 +185,33 @@ export default function MenuDia({ menus, today, isNextDay = false }: Readonly<{ 
                   Principal — elige uno
                 </h4>
                 {segundos.map((d) => (
-                  <div
-                    key={d.id}
-                    style={{ padding: "9px 0", borderBottom: "1px dashed var(--line)" }}
-                  >
-                    <b style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "1.06rem" }}>
-                      {d.name}
-                    </b>
-                    {d.description && (
-                      <p style={{ fontSize: ".84rem", color: "var(--ink-soft)", marginTop: 1 }}>
-                        {d.description}
-                      </p>
-                    )}
+                  <div key={d.id} style={{ padding: "9px 0", borderBottom: "1px dashed var(--line)" }}>
+                    <b style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "1.06rem" }}>{d.name}</b>
+                    {d.description && <p style={{ fontSize: ".84rem", color: "var(--ink-soft)", marginTop: 1 }}>{d.description}</p>}
+                  </div>
+                ))}
+                {suplSegundos.map((d) => (
+                  <div key={d.id} style={{ padding: "8px 10px", margin: "6px 0 0", borderRadius: 8, background: "rgba(200,85,43,.07)", border: "1px dashed rgba(200,85,43,.3)" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
+                      <b style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "1rem", color: "var(--ember)" }}>+ {d.name}</b>
+                      {d.suppPrice && <span style={{ fontSize: ".78rem", fontWeight: 800, color: "var(--ember)", whiteSpace: "nowrap" }}>{d.suppPrice}</span>}
+                    </div>
+                    {d.description && <p style={{ fontSize: ".82rem", color: "var(--ink-soft)", marginTop: 1 }}>{d.description}</p>}
                   </div>
                 ))}
               </div>
 
-              {/* Footer: postre + suplementos */}
+              {/* Footer: postre */}
               <div
                 style={{
                   gridColumn: "1 / -1",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  gap: 14,
                   paddingTop: 18,
                   borderTop: "2px solid var(--line)",
                   fontSize: ".88rem",
                   color: "var(--ink-soft)",
                 }}
               >
-                <span>
-                  🍮 <b>Postre:</b> {menu.postre}
-                </span>
-                <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                  {suplementos.map((s) => (
-                    <span
-                      key={s.id}
-                      style={{
-                        fontSize: ".62rem",
-                        fontWeight: 800,
-                        letterSpacing: ".08em",
-                        textTransform: "uppercase",
-                        padding: "2px 7px",
-                        borderRadius: 6,
-                        background: "rgba(200,85,43,.16)",
-                        color: "var(--ember)",
-                      }}
-                    >
-                      + {s.name} {s.suppPrice && `(${s.suppPrice})`}
-                    </span>
-                  ))}
-                </div>
+                🍮 <b>Postre:</b> {menu.postre}
               </div>
             </div>
           </div>
