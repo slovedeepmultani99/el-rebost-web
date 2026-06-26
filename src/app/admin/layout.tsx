@@ -1,15 +1,8 @@
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { headers } from "next/headers"
 import Sidebar from "@/components/admin/Sidebar"
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  const headersList = headers()
-  const pathname = headersList.get("x-pathname") ?? ""
-
-  // Login page renders without sidebar and without auth check
-  if (pathname === "/admin/login") return <>{children}</>
-
   const session = await auth()
   if (!session) redirect("/admin/login")
 
