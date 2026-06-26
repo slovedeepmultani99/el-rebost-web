@@ -124,7 +124,7 @@ async function main() {
 
   const cartaSections = [
     {
-      title: 'Tapas', sortOrder: 1,
+      title: 'Tapas', group: 'Tapas y Entrantes', sortOrder: 1,
       dishes: [
         { name: 'Empanada de carne y huevo duro (u.)', description: 'Picante opcional', price: 4.95, sortOrder: 1 },
         { name: 'Patatas bravas caseras', price: 6.45, sortOrder: 2, isVeg: true },
@@ -140,7 +140,7 @@ async function main() {
       ],
     },
     {
-      title: 'Del Mar', sortOrder: 2,
+      title: 'Del Mar', group: 'Tapas y Entrantes', sortOrder: 2,
       dishes: [
         { name: 'Tiras de choco a la andaluza', price: 7.95, sortOrder: 1 },
         { name: 'Mejillones al vapor o a la marinera', price: 8.90, sortOrder: 2 },
@@ -152,7 +152,7 @@ async function main() {
       ],
     },
     {
-      title: 'Entrantes', sortOrder: 3,
+      title: 'Entrantes', group: 'Tapas y Entrantes', sortOrder: 3,
       dishes: [
         { name: 'Solomillo ibérico con queso brie', price: 7.95, sortOrder: 1 },
         { name: 'Solomillo ibérico con cebolla caramelizada y roquefort', price: 8.45, sortOrder: 2 },
@@ -165,7 +165,7 @@ async function main() {
       ],
     },
     {
-      title: 'Ensaladas', sortOrder: 4,
+      title: 'Ensaladas', group: 'Ensaladas y Pastas', sortOrder: 4,
       dishes: [
         { name: 'De la huerta con atún y huevo duro', price: 9.90, sortOrder: 1 },
         { name: 'De rulo de cabra con frutos secos y virutas de ibérico', price: 11.90, sortOrder: 2 },
@@ -173,7 +173,7 @@ async function main() {
       ],
     },
     {
-      title: 'Sopas y Pastas', note: 'Salsas a elegir: pesto, carbonara, ceps, funghi o napolitana', sortOrder: 5,
+      title: 'Sopas y Pastas', group: 'Ensaladas y Pastas', note: 'Salsas a elegir: pesto, carbonara, ceps, funghi o napolitana', sortOrder: 5,
       dishes: [
         { name: 'Tallarines de pasta fresca', price: 8.90, sortOrder: 1, isVeg: true },
         { name: 'Canelones de la casa', price: 9.90, sortOrder: 2 },
@@ -182,13 +182,13 @@ async function main() {
       ],
     },
     {
-      title: 'Pan', sortOrder: 6,
+      title: 'Pan', group: 'Pan, Huevos y Torradas', sortOrder: 6,
       dishes: [
         { name: 'Ración de pan con tomate o sin tomate', price: 2.60, sortOrder: 1, isVeg: true },
       ],
     },
     {
-      title: 'Con 2 Huevos Rotos', sortOrder: 7,
+      title: 'Con 2 Huevos Rotos', group: 'Pan, Huevos y Torradas', sortOrder: 7,
       dishes: [
         { name: 'Con torreznos', price: 11.90, sortOrder: 1 },
         { name: 'Con jamón y foie rallado', price: 12.90, sortOrder: 2 },
@@ -197,7 +197,7 @@ async function main() {
       ],
     },
     {
-      title: 'Torradas', sortOrder: 8,
+      title: 'Torradas', group: 'Pan, Huevos y Torradas', sortOrder: 8,
       dishes: [
         { name: 'Sobrasada con miel', price: 8.90, sortOrder: 1 },
         { name: 'Lomo con queso y pimiento verde', price: 9.90, sortOrder: 2 },
@@ -207,7 +207,7 @@ async function main() {
       ],
     },
     {
-      title: 'Arroces y Fideuà', subtitle: 'Mínimo 2 personas', sortOrder: 9,
+      title: 'Arroces y Fideuà', group: 'Arroces y Bacalao', subtitle: 'Mínimo 2 personas', sortOrder: 9,
       dishes: [
         { name: 'Fideuà de marisco y sepia', price: 15.90, sortOrder: 1 },
         { name: 'Paella marinera', price: 17.90, sortOrder: 2 },
@@ -217,7 +217,7 @@ async function main() {
       ],
     },
     {
-      title: 'Bacalao', sortOrder: 10,
+      title: 'Bacalao', group: 'Arroces y Bacalao', sortOrder: 10,
       dishes: [
         { name: 'Con romesco y alioli', price: 16.90, sortOrder: 1 },
         { name: 'A la llauna', price: 16.90, sortOrder: 2 },
@@ -226,7 +226,7 @@ async function main() {
       ],
     },
     {
-      title: 'Carnes', note: 'A la brasa · guarnición a elegir: patatas fritas y pimientos de Padrón, arroz o ensalada', sortOrder: 11,
+      title: 'Carnes', group: 'Carnes', note: 'A la brasa · guarnición a elegir: patatas fritas y pimientos de Padrón, arroz o ensalada', sortOrder: 11,
       dishes: [
         { name: 'Milanesa de pollo clásica', price: 8.90, sortOrder: 1 },
         { name: 'Butifarra de cerdo con judías blancas', price: 9.95, sortOrder: 2 },
@@ -242,7 +242,7 @@ async function main() {
       ],
     },
     {
-      title: 'Salsas', subtitle: '3,00€ por unidad', isSalsas: true, sortOrder: 12,
+      title: 'Salsas', group: 'Carnes', subtitle: '3,00€ por unidad', isSalsas: true, sortOrder: 12,
       dishes: [
         { name: 'Roquefort', price: 3.00, sortOrder: 1 },
         { name: 'Pimienta verde', price: 3.00, sortOrder: 2 },
@@ -251,7 +251,7 @@ async function main() {
       ],
     },
     {
-      title: 'Sugerencias del Chef · Entrantes', sortOrder: 13,
+      title: 'Sugerencias del Chef · Entrantes', group: 'Sugerencias del Chef', sortOrder: 13,
       dishes: [
         { name: 'Canelón de pasta brick de rabo de toro', description: 'Con setas y reducción de Oporto', price: 11.95, sortOrder: 1, isStar: true },
         { name: 'Caracoles a la llauna', price: 11.95, sortOrder: 2 },
@@ -262,7 +262,7 @@ async function main() {
       ],
     },
     {
-      title: 'Sugerencias del Chef · Carnes', sortOrder: 14,
+      title: 'Sugerencias del Chef · Carnes', group: 'Sugerencias del Chef', sortOrder: 14,
       dishes: [
         { name: 'Rabo de toro guisado al vino tinto', description: 'Con pochas de Navarra', price: 17.95, sortOrder: 1, isStar: true },
         { name: 'Solomillo de ternera con foie y setas', description: 'Con reducción de Oporto', price: 27.95, sortOrder: 2, isStar: true },
@@ -270,7 +270,7 @@ async function main() {
       ],
     },
     {
-      title: 'Sugerencias del Chef · Pescados y Mariscos', sortOrder: 15,
+      title: 'Sugerencias del Chef · Pescados y Mariscos', group: 'Sugerencias del Chef', sortOrder: 15,
       dishes: [
         { name: 'Cogote de merluza a la brasa', description: 'Con sofrito de ajo, chistorra y verduras al vapor', price: 12.95, sortOrder: 1 },
         { name: 'Pica-Pica Marinero', price: 16.95, sortOrder: 2, isStar: true },

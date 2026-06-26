@@ -114,7 +114,7 @@ export default function Reservas({ info, horarios }: { info: InfoData; horarios:
           </div>
 
           {/* Form card */}
-          <div id="res-form" className="res-card" style={{ background: "var(--bone)", color: "var(--ink)", borderRadius: 24, padding: 34, boxShadow: "0 30px 70px -20px rgba(0,0,0,.6)" }}>
+          <div id="res-form" className="res-card" style={{ background: "var(--bone)", color: "var(--ink)", borderRadius: 24, padding: 34, boxShadow: "0 30px 70px -20px rgba(0,0,0,.6)", overflow: "hidden" }}>
             <h3 style={{ fontSize: "1.5rem", marginBottom: 4 }}>Haz tu reserva</h3>
             <p style={{ fontSize: ".9rem", color: "var(--ink-soft)", marginBottom: 22 }}>El Rebost de Montigalà · Badalona</p>
 

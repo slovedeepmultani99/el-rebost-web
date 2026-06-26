@@ -31,6 +31,7 @@ model CartaSection {
   title     String
   subtitle  String?
   note      String?     // "*Salsas: pesto, carbonara…"
+  group     String      @default("")  // parent category label
   isSalsas  Boolean     @default(false)
   sortOrder Int         @default(0)
   active    Boolean     @default(true)

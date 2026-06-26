@@ -123,6 +123,17 @@ export default function Footer({ marca, info, horarios }: { marca: MarcaData; in
             <a href="#contacto" style={{ color: "rgba(245,237,224,.7)" }}>Alérgenos</a>
           </span>
         </div>
+        <div style={{ paddingTop: 12, fontSize: ".74rem", color: "rgba(245,237,224,.4)", textAlign: "center" }}>
+          Diseñada y desarrollada por{" "}
+          <a
+            href="https://www.linkedin.com/in/lovedeepdev/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "rgba(245,237,224,.6)", fontWeight: 700, textDecoration: "underline", textUnderlineOffset: 3 }}
+          >
+            Lovedeep Singh
+          </a>
+        </div>
       </div>
     </footer>
   )
