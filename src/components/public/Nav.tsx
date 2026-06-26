@@ -72,7 +72,7 @@ export default function Nav({ showResenas = true }: Readonly<{ showResenas?: boo
           {/* CTAs + burger */}
           <div className="flex gap-3 items-center">
             <a href="tel:+34934653000" className="btn btn-ghost hidden lg:inline-flex">Llamar</a>
-            <a href="#reservas" className="btn btn-primary nav-reservar">Reservar mesa</a>
+            <a href="#res-form" className="btn btn-primary nav-reservar">Reservar mesa</a>
             <button
               className="lg:hidden flex flex-col gap-[5px] p-1.5 bg-none border-none cursor-pointer"
               onClick={() => setMobileOpen(true)}
@@ -110,7 +110,7 @@ export default function Nav({ showResenas = true }: Readonly<{ showResenas?: boo
             </a>
           ))}
           <a
-            href="#reservas"
+            href="#res-form"
             onClick={close}
             style={{ color: "var(--ember-bright)", fontFamily: "var(--font-fraunces), serif", fontSize: "1.8rem", padding: "8px" }}
           >

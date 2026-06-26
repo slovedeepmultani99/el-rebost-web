@@ -29,7 +29,7 @@ export default function Extras() {
                 Bautizos, comidas de empresa, cumpleaños y comuniones. Salón para hasta 45 comensales y menús cerrados a tu medida con la mejor relación calidad-precio.
               </p>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <a href="#reservas" className="btn btn-cream">Pedir presupuesto</a>
+                <a href="#res-form" className="btn btn-cream">Pedir presupuesto</a>
                 <a
                   href={waReservaUrl()}
                   target="_blank"

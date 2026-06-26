@@ -94,7 +94,7 @@ export default function Hero({ data }: { data: HeroData }) {
 
           {/* CTAs */}
           <div className="flex flex-wrap gap-3 mb-8">
-            <Link href="#reservas" className="btn btn-primary">{data.cta1}</Link>
+            <Link href="#res-form" className="btn btn-primary">{data.cta1}</Link>
             <Link href="#menudia" className="btn btn-cream">{data.cta2}</Link>
           </div>
 
