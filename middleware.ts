@@ -8,7 +8,13 @@ const SESSION_COOKIE =
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  if (pathname === "/admin/login") return NextResponse.next()
+  // Pass pathname as header so server layouts can read it
+  const reqHeaders = new Headers(req.headers)
+  reqHeaders.set("x-pathname", pathname)
+
+  if (pathname === "/admin/login") {
+    return NextResponse.next({ request: { headers: reqHeaders } })
+  }
 
   const hasSession = req.cookies.has(SESSION_COOKIE)
   if (!hasSession) {
@@ -17,7 +23,7 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(loginUrl)
   }
 
-  return NextResponse.next()
+  return NextResponse.next({ request: { headers: reqHeaders } })
 }
 
 export const config = {
