@@ -23,7 +23,7 @@ export default function CartaAdminPage() {
   const { toast, el: toastEl } = useToast()
 
   const load = useCallback(async () => {
-    const res = await fetch("/api/carta")
+    const res = await fetch("/api/carta?all=true")
     const data: Section[] = await res.json()
     setSections(data)
     setActiveId(prev => prev || data[0]?.id || "")
@@ -104,7 +104,7 @@ export default function CartaAdminPage() {
             <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 12, padding: 10, background: "#F7F2EA", borderRadius: 10 }}>
               <input defaultValue={section.title} placeholder="Nombre sección" style={{ ...inp, fontFamily: "var(--font-fraunces),serif", fontSize: ".95rem", border: "none", background: "transparent", fontWeight: 600, flex: 1 }} />
               <input defaultValue={section.subtitle ?? ""} placeholder="Subtítulo" style={{ ...inp, fontSize: ".78rem", border: "none", background: "transparent", flex: 1.2 }} />
-              <span style={{ fontSize: ".72rem", color: "var(--muted)" }}>{section.dishes.length} platos</span>
+              <span style={{ fontSize: ".72rem", color: "var(--muted)" }}>{section.dishes.filter(d => d.available).length}/{section.dishes.length} visibles</span>
             </div>
 
             {/* Dish cards */}
@@ -112,7 +112,7 @@ export default function CartaAdminPage() {
               <p style={{ color: "var(--muted)", fontSize: ".9rem", padding: "10px 0" }}>No hay platos en esta sección.</p>
             ) : (
               section.dishes.map((d) => (
-                <div key={d.id} style={{ background: "#fff", border: "1px solid var(--line,#E4D9C8)", borderRadius: 13, padding: 14, display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 10 }}>
+                <div key={d.id} style={{ background: d.available ? "#fff" : "#F5F0EC", border: `1px solid ${d.available ? "var(--line,#E4D9C8)" : "#E8C4B0"}`, borderRadius: 13, padding: 14, display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 10, opacity: d.available ? 1 : 0.75 }}>
                   {/* Thumb */}
                   <div style={{ width: 60, height: 60, borderRadius: 9, background: d.imageUrl ? `url(${d.imageUrl}) center/cover` : "linear-gradient(135deg,var(--wine),var(--ember))", display: "grid", placeItems: "center", fontSize: ".62rem", color: "rgba(255,255,255,.7)", flexShrink: 0 }}>
                     {!d.imageUrl && "IMG"}
@@ -120,6 +120,11 @@ export default function CartaAdminPage() {
 
                   {/* Info */}
                   <div style={{ flex: 1, minWidth: 0 }}>
+                    {!d.available && (
+                      <span style={{ display: "inline-block", marginBottom: 4, fontSize: ".6rem", fontWeight: 800, letterSpacing: ".06em", background: "#C8552B", color: "#fff", borderRadius: 5, padding: "1px 6px" }}>
+                        OCULTO EN WEB
+                      </span>
+                    )}
                     <input
                       value={d.name}
                       onChange={(e) => updateDish(d.id, "name", e.target.value)}
