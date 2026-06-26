@@ -19,7 +19,7 @@ interface HeroData {
   plate2Name?: string
 }
 
-export default function Hero({ data }: { data: HeroData }) {
+export default function Hero({ data }: Readonly<{ data: HeroData }>) {
   const p1Url = data.plate1Url || '/fotos/chuleton.jpg'
   const p1Badge = data.plate1Badge || 'De la brasa'
   const p1Name = data.plate1Name || 'Chuletón madurado'
@@ -44,7 +44,7 @@ export default function Hero({ data }: { data: HeroData }) {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          opacity: 0.10,
+          opacity: 0.1,
           backgroundImage: "radial-gradient(circle at 1px 1px, #F5EDE0 1px, transparent 0)",
           backgroundSize: "26px 26px",
         }}
@@ -115,7 +115,7 @@ export default function Hero({ data }: { data: HeroData }) {
           </div>
 
           {/* Mobile-only food photos — hidden on lg+ where the floating cards are shown */}
-          <div className="lg:hidden" style={{ display: "flex", gap: 10, marginTop: 28 }}>
+          <div className="flex lg:hidden" style={{ gap: 10, marginTop: 28 }}>
             {[
               { url: p1Url, badge: p1Badge, name: p1Name, tint: "rgba(122,46,22,.35)" },
               { url: p2Url, badge: p2Badge, name: p2Name, tint: "rgba(58,15,27,.35)" },
