@@ -26,7 +26,7 @@ export async function sendReservationNotification(data: ReservationEmailData) {
   })
 
   const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL ?? "admin@rebostmontigala.com"
-  const FROM_EMAIL = process.env.FROM_EMAIL ?? "reservas@elrebostdemontigala.com"
+  const FROM_EMAIL = process.env.FROM_EMAIL ?? "onboarding@resend.dev"
 
   await resend.emails.send({
     from: `El Rebost de Montigalà <${FROM_EMAIL}>`,
