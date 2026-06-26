@@ -86,13 +86,13 @@ export default async function Home() {
   return (
     <>
       <TopBar tel={cms.info?.tel ?? "934 65 30 00"} addr={cms.info?.addr ?? "Carrer Manuel Moreno Mauricio, 35-37 · Badalona"} />
-      <Nav />
+      <Nav showResenas={cms.info?.showResenas !== false} />
       <Hero data={cms.hero} />
       <Esencia casa={cms.casa} features={cms.features} stats={cms.stats} />
       <MenuDia menus={menus} today={today} isNextDay={isNextDay} />
       <CartaPublica sections={carta} />
       <Reservas info={cms.info} horarios={cms.horarios} />
-      <Resenas />
+      {cms.info?.showResenas !== false && <Resenas />}
       <Galeria images={galeria} />
       <Extras />
       <Contacto info={cms.info} horarios={cms.horarios} />

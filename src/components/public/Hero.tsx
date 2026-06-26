@@ -11,9 +11,21 @@ interface HeroData {
   meta1s: string
   meta2t: string
   meta2s: string
+  plate1Url?: string
+  plate1Badge?: string
+  plate1Name?: string
+  plate2Url?: string
+  plate2Badge?: string
+  plate2Name?: string
 }
 
 export default function Hero({ data }: { data: HeroData }) {
+  const p1Url = data.plate1Url || '/fotos/chuleton.jpg'
+  const p1Badge = data.plate1Badge || 'De la brasa'
+  const p1Name = data.plate1Name || 'Chuletón madurado'
+  const p2Url = data.plate2Url || '/fotos/mariscada2.jpg'
+  const p2Badge = data.plate2Badge || 'Casero'
+  const p2Name = data.plate2Name || 'Arroz con bogavante'
   return (
     <section
       id="top"
@@ -114,7 +126,7 @@ export default function Hero({ data }: { data: HeroData }) {
               top: 0,
               border: "6px solid rgba(245,237,224,.9)",
               boxShadow: "0 30px 60px -20px rgba(0,0,0,.6)",
-              backgroundImage: "linear-gradient(135deg,rgba(122,46,22,.15),rgba(58,15,27,.4)), url('/fotos/chuleton.jpg')",
+              backgroundImage: `linear-gradient(135deg,rgba(122,46,22,.15),rgba(58,15,27,.4)), url('${p1Url}')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -138,10 +150,10 @@ export default function Hero({ data }: { data: HeroData }) {
                   fontWeight: 700,
                 }}
               >
-                De la brasa
+                {p1Badge}
               </span>
               <span style={{ fontFamily: "var(--font-fraunces), serif", fontSize: "1.05rem" }}>
-                Chuletón madurado
+                {p1Name}
               </span>
             </div>
           </div>
@@ -156,7 +168,7 @@ export default function Hero({ data }: { data: HeroData }) {
               bottom: 0,
               border: "6px solid rgba(245,237,224,.9)",
               boxShadow: "0 30px 60px -20px rgba(0,0,0,.6)",
-              backgroundImage: "linear-gradient(135deg,rgba(74,90,48,.15),rgba(58,15,27,.4)), url('/fotos/mariscada2.jpg')",
+              backgroundImage: `linear-gradient(135deg,rgba(74,90,48,.15),rgba(58,15,27,.4)), url('${p2Url}')`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -180,10 +192,10 @@ export default function Hero({ data }: { data: HeroData }) {
                   fontWeight: 700,
                 }}
               >
-                Casero
+                {p2Badge}
               </span>
               <span style={{ fontFamily: "var(--font-fraunces), serif", fontSize: "1.05rem" }}>
-                Arroz con bogavante
+                {p2Name}
               </span>
             </div>
           </div>

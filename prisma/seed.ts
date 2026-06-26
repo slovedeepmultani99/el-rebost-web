@@ -43,6 +43,12 @@ async function main() {
         meta1s: 'desde 16€ · entrante, principal y postre',
         meta2t: 'Hasta 45 pax',
         meta2s: 'grupos, empresas y celebraciones',
+        plate1Url: '/fotos/chuleton.jpg',
+        plate1Badge: 'De la brasa',
+        plate1Name: 'Chuletón madurado',
+        plate2Url: '/fotos/mariscada2.jpg',
+        plate2Badge: 'Casero',
+        plate2Name: 'Arroz con bogavante',
       },
     },
     {
@@ -82,6 +88,7 @@ async function main() {
         tripadvisor: 'https://www.tripadvisor.es/Restaurant_Review-g665816-d2708401-Reviews-El_Rebost_de_Montigala-Badalona_Catalonia.html',
         addr: 'Carrer Manuel Moreno Mauricio, 35-37, 08917 Badalona, Barcelona',
         email: '',
+        showResenas: true,
       },
     },
     {

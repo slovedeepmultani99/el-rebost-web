@@ -4,10 +4,19 @@ import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 
-export default function Nav() {
+export default function Nav({ showResenas = true }: Readonly<{ showResenas?: boolean }>) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   const close = () => setMobileOpen(false)
+
+  const navLinks: [string, string][] = [
+    ["#esencia", "La casa"],
+    ["#menudia", "Menú del día"],
+    ["#carta", "Carta"],
+    ...(showResenas ? [["#resenas", "Reseñas"] as [string, string]] : []),
+    ["#extras", "Grupos"],
+    ["#contacto", "Contacto"],
+  ]
 
   return (
     <>
@@ -43,14 +52,7 @@ export default function Nav() {
 
           {/* Desktop links */}
           <nav className="hidden lg:flex gap-[30px] items-center">
-            {[
-              ["#esencia", "La casa"],
-              ["#menudia", "Menú del día"],
-              ["#carta", "Carta"],
-              ["#resenas", "Reseñas"],
-              ["#extras", "Grupos"],
-              ["#contacto", "Contacto"],
-            ].map(([href, label]) => (
+            {navLinks.map(([href, label]) => (
               <a
                 key={href}
                 href={href}
@@ -96,14 +98,7 @@ export default function Nav() {
           >
             ✕
           </button>
-          {[
-            ["#esencia", "La casa"],
-            ["#menudia", "Menú del día"],
-            ["#carta", "Carta"],
-            ["#resenas", "Reseñas"],
-            ["#extras", "Grupos"],
-            ["#contacto", "Contacto"],
-          ].map(([href, label]) => (
+          {navLinks.map(([href, label]) => (
             <a
               key={href}
               href={href}
