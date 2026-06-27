@@ -2,14 +2,19 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
 export async function GET(req: Request) {
-  // Auth: Bearer token OR X-Api-Key header
-  const auth = req.headers.get("authorization") ?? ""
-  const token = auth.startsWith("Bearer ") ? auth.slice(7) : (req.headers.get("x-api-key") ?? "")
+  // Auth: Bearer token | X-Api-Key header | ?apikey= | ?api_key= query param
+  const { searchParams } = new URL(req.url)
+  const auth  = req.headers.get("authorization") ?? ""
+  const token =
+    (auth.startsWith("Bearer ") ? auth.slice(7) : null) ??
+    req.headers.get("x-api-key") ??
+    searchParams.get("apikey") ??
+    searchParams.get("api_key") ??
+    ""
   if (!token || token !== process.env.RESERVAS_API_KEY) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 })
   }
 
-  const { searchParams } = new URL(req.url)
   const status = searchParams.get("status") // "pending" | "confirmed" | "all"
   const date   = searchParams.get("date")   // "YYYY-MM-DD" opcional
 
