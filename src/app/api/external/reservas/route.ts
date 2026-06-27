@@ -2,9 +2,9 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
 export async function GET(req: Request) {
-  // Auth via Bearer token
+  // Auth: Bearer token OR X-Api-Key header
   const auth = req.headers.get("authorization") ?? ""
-  const token = auth.startsWith("Bearer ") ? auth.slice(7) : ""
+  const token = auth.startsWith("Bearer ") ? auth.slice(7) : (req.headers.get("x-api-key") ?? "")
   if (!token || token !== process.env.RESERVAS_API_KEY) {
     return NextResponse.json({ error: "No autorizado" }, { status: 401 })
   }
