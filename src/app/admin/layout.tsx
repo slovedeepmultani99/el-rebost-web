@@ -21,6 +21,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     >
       <Sidebar userName={user.name ?? "Admin"} userEmail={user.email ?? ""} />
       <main
+        className="admin-main"
         style={{
           flex: 1,
           display: "flex",

@@ -177,6 +177,58 @@ a { color: inherit; text-decoration: none; }
   .horario-row .horario-time { font-size: .82rem; opacity: .82; }
 }
 
+/* ── Admin top bar ── */
+.admin-topbar {
+  background: var(--bone, #FBF7EF);
+  border-bottom: 1px solid var(--line, #E4D9C8);
+  padding: 13px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  gap: 12px;
+}
+.admin-topbar-crumb { font-size: .72rem; color: var(--muted, #6A554F); margin-bottom: 1px; }
+.admin-topbar-title { font-size: 1.3rem; font-family: var(--font-fraunces), serif; font-weight: 500; }
+
+@media (max-width: 768px) {
+  .admin-topbar { padding: 10px 16px; }
+  .admin-topbar-title { font-size: 1.1rem; }
+  .admin-topbar-crumb { display: none; }
+}
+
+/* ── Admin mobile app layout ── */
+.admin-bottom-bar { display: none; }
+.admin-more-overlay { display: none; }
+
+@media (max-width: 768px) {
+  .admin-sidebar { display: none !important; }
+
+  .admin-bottom-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 62px;
+    background: var(--wine-deep, #3A0F1B);
+    border-top: 1px solid rgba(245,237,224,.12);
+    z-index: 900;
+    -webkit-tap-highlight-color: transparent;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .admin-more-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 950;
+    backdrop-filter: blur(2px);
+  }
+
+  /* Push content above bottom bar */
+  .admin-main { padding-bottom: 70px !important; }
+}
+
 /* ── Carta tabs – horizontal scroll ── */
 .carta-tabs {
   display: flex;
@@ -198,4 +250,12 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 540px) {
   .res-card { padding: 20px !important; }
   .res-2col { grid-template-columns: 1fr !important; }
+}
+
+/* ── Admin reservas: table vs cards ── */
+.res-cards-wrap { display: none; }
+.res-table-wrap { display: block; }
+@media (max-width: 768px) {
+  .res-table-wrap { display: none; }
+  .res-cards-wrap { display: block; }
 }

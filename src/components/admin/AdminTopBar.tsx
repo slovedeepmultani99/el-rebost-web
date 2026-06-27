@@ -8,24 +8,12 @@ export default function AdminTopBar({
   children?: React.ReactNode
 }) {
   return (
-    <div
-      style={{
-        background: "var(--bone, #FBF7EF)",
-        borderBottom: "1px solid var(--line, #E4D9C8)",
-        padding: "13px 26px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        flexShrink: 0,
-      }}
-    >
-      <div>
-        <p style={{ fontSize: ".72rem", color: "var(--muted, #6A554F)", marginBottom: 1 }}>{crumb}</p>
-        <h2 style={{ fontSize: "1.3rem", fontFamily: "var(--font-fraunces), serif", fontWeight: 500 }}>
-          {title}
-        </h2>
+    <div className="admin-topbar">
+      <div style={{ minWidth: 0 }}>
+        <p className="admin-topbar-crumb">{crumb}</p>
+        <h2 className="admin-topbar-title">{title}</h2>
       </div>
-      <div style={{ display: "flex", gap: 10, alignItems: "center" }}>{children}</div>
+      <div style={{ display: "flex", gap: 8, alignItems: "center", flexShrink: 0 }}>{children}</div>
     </div>
   )
 }
