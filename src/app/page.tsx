@@ -90,7 +90,7 @@ export default async function Home() {
       <Hero data={cms.hero} />
       <Esencia casa={cms.casa} features={cms.features} stats={cms.stats} />
       <MenuDia menus={menus} today={today} isNextDay={isNextDay} />
-      <CartaPublica sections={carta} />
+      <CartaPublica sections={carta} hidePrice={cms.carta?.hidePrice === true} />
       <Reservas info={cms.info} horarios={cms.horarios} />
       {cms.info?.showResenas !== false && <Resenas />}
       <Galeria images={galeria} />

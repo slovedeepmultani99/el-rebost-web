@@ -20,16 +20,33 @@ const btnS = (on: boolean, color = "var(--olive)"): React.CSSProperties => ({
 export default function CartaAdminPage() {
   const [sections, setSections] = useState<Section[]>([])
   const [activeId, setActiveId] = useState("")
+  const [hidePrice, setHidePrice] = useState(false)
   const { toast, el: toastEl } = useToast()
 
   const load = useCallback(async () => {
-    const res = await fetch("/api/carta?all=true")
-    const data: Section[] = await res.json()
+    const [cartaRes, settingsRes] = await Promise.all([
+      fetch("/api/carta?all=true"),
+      fetch("/api/settings"),
+    ])
+    const data: Section[] = await cartaRes.json()
+    const cms = await settingsRes.json()
     setSections(data)
     setActiveId(prev => prev || data[0]?.id || "")
+    setHidePrice(cms.carta?.hidePrice === true)
   }, [])
 
   useEffect(() => { load() }, [load])
+
+  async function toggleHidePrice() {
+    const next = !hidePrice
+    setHidePrice(next)
+    await fetch("/api/settings", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: "carta", value: { hidePrice: next } }),
+    })
+    toast(next ? "Precios ocultos en la web" : "Precios visibles en la web")
+  }
 
   const section = sections.find((s) => s.id === activeId)
 
@@ -76,6 +93,22 @@ export default function CartaAdminPage() {
   return (
     <>
       <AdminTopBar crumb="Backoffice · Contenido" title="Carta">
+        {/* Toggle precios */}
+        <button
+          onClick={toggleHidePrice}
+          title={hidePrice ? "Precios ocultos en la web — clic para mostrar" : "Precios visibles en la web — clic para ocultar"}
+          style={{
+            display: "inline-flex", alignItems: "center", gap: 8, fontWeight: 700, fontSize: ".82rem",
+            padding: ".55em 1em", borderRadius: 9, cursor: "pointer", border: "1.5px solid",
+            borderColor: hidePrice ? "var(--ember)" : "var(--line,#E4D9C8)",
+            background: hidePrice ? "rgba(200,85,43,.08)" : "#fff",
+            color: hidePrice ? "var(--ember)" : "var(--muted)",
+            transition: ".2s",
+          }}
+        >
+          <span style={{ fontSize: "1rem" }}>{hidePrice ? "🚫" : "💶"}</span>
+          {hidePrice ? "Precios ocultos" : "Precios visibles"}
+        </button>
         <Link
           href="/imprimir/carta"
           target="_blank"

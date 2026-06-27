@@ -37,7 +37,7 @@ function buildGroups(sections: Section[]): Group[] {
   return [...map.entries()].map(([name, secs]) => ({ name, sections: secs }))
 }
 
-export default function CartaPublica({ sections }: Readonly<{ sections: Section[] }>) {
+export default function CartaPublica({ sections, hidePrice = false }: Readonly<{ sections: Section[]; hidePrice?: boolean }>) {
   const groups = useMemo(() => buildGroups(sections), [sections])
   const [activeGroup, setActiveGroup] = useState(groups[0]?.name ?? "")
   const current = groups.find((g) => g.name === activeGroup)
@@ -150,7 +150,7 @@ export default function CartaPublica({ sections }: Readonly<{ sections: Section[
                       </p>
                     )}
                   </div>
-                  {d.price && (
+                  {d.price && !hidePrice && (
                     <span style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "1rem", color: "var(--wine)", flexShrink: 0, whiteSpace: "nowrap" }}>
                       {d.price} €
                     </span>
