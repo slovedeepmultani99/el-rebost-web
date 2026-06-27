@@ -12,7 +12,7 @@ const DINNER_DAYS = [3, 4, 5, 6] // Miércoles, Jueves, Viernes, Sábado
 
 const todayStr = () => new Date().toLocaleDateString("sv")
 const minSlotTime = () => {
-  const d = new Date(Date.now() + 30 * 60 * 1000)
+  const d = new Date(Date.now() + 15 * 60 * 1000)
   return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`
 }
 
