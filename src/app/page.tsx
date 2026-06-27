@@ -10,6 +10,7 @@ import Reservas from "@/components/public/Reservas"
 import Resenas from "@/components/public/Resenas"
 import Galeria from "@/components/public/Galeria"
 import Extras from "@/components/public/Extras"
+import Faq from "@/components/public/Faq"
 import Contacto from "@/components/public/Contacto"
 import Footer from "@/components/public/Footer"
 import WhatsAppButton from "@/components/public/WhatsAppButton"
@@ -95,6 +96,7 @@ export default async function Home() {
       {cms.info?.showResenas !== false && <Resenas />}
       <Galeria images={galeria} />
       <Extras />
+      <Faq />
       <Contacto info={cms.info} horarios={cms.horarios} />
       <Footer marca={cms.marca} info={cms.info} horarios={cms.horarios} />
       <WhatsAppButton />

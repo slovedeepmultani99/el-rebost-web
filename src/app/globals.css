@@ -177,6 +177,10 @@ a { color: inherit; text-decoration: none; }
   .horario-row .horario-time { font-size: .82rem; opacity: .82; }
 }
 
+/* ── FAQ accordion chevron ── */
+details[open] .faq-chevron { transform: rotate(180deg); }
+details summary::-webkit-details-marker { display: none; }
+
 /* ── Admin top bar ── */
 .admin-topbar {
   background: var(--bone, #FBF7EF);
