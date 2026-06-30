@@ -18,9 +18,10 @@ const btnS = (on: boolean, color = "var(--olive)"): React.CSSProperties => ({
 })
 
 export default function CartaAdminPage() {
-  const [sections, setSections] = useState<Section[]>([])
-  const [activeId, setActiveId] = useState("")
-  const [hidePrice, setHidePrice] = useState(false)
+  const [sections, setSections]       = useState<Section[]>([])
+  const [activeId, setActiveId]       = useState("")
+  const [hidePrice, setHidePrice]     = useState(false)
+  const [hideSection, setHideSection] = useState(false)
   const { toast, el: toastEl } = useToast()
 
   const load = useCallback(async () => {
@@ -33,19 +34,31 @@ export default function CartaAdminPage() {
     setSections(data)
     setActiveId(prev => prev || data[0]?.id || "")
     setHidePrice(cms.carta?.hidePrice === true)
+    setHideSection(cms.carta?.hideSection === true)
   }, [])
 
   useEffect(() => { load() }, [load])
 
-  async function toggleHidePrice() {
-    const next = !hidePrice
-    setHidePrice(next)
+  async function saveCartaSettings(patch: { hidePrice?: boolean; hideSection?: boolean }) {
     await fetch("/api/settings", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ key: "carta", value: { hidePrice: next } }),
+      body: JSON.stringify({ key: "carta", value: { hidePrice, hideSection, ...patch } }),
     })
-    toast(next ? "Precios ocultos en la web" : "Precios visibles en la web")
+  }
+
+  async function toggleHidePrice() {
+    const next = !hidePrice
+    setHidePrice(next)
+    await saveCartaSettings({ hidePrice: next })
+    toast(next ? "💶 Precios ocultos en la web" : "💶 Precios visibles en la web")
+  }
+
+  async function toggleHideSection() {
+    const next = !hideSection
+    setHideSection(next)
+    await saveCartaSettings({ hideSection: next })
+    toast(next ? "📋 Carta oculta en la web" : "📋 Carta visible en la web")
   }
 
   const section = sections.find((s) => s.id === activeId)
@@ -108,6 +121,22 @@ export default function CartaAdminPage() {
         >
           <span style={{ fontSize: "1rem" }}>{hidePrice ? "🚫" : "💶"}</span>
           {hidePrice ? "Precios ocultos" : "Precios visibles"}
+        </button>
+        {/* Toggle carta visible/oculta */}
+        <button
+          onClick={toggleHideSection}
+          title={hideSection ? "Carta oculta en la web — clic para mostrar" : "Carta visible en la web — clic para ocultar"}
+          style={{
+            display: "inline-flex", alignItems: "center", gap: 8, fontWeight: 700, fontSize: ".82rem",
+            padding: ".55em 1em", borderRadius: 9, cursor: "pointer", border: "1.5px solid",
+            borderColor: hideSection ? "var(--wine)" : "var(--line,#E4D9C8)",
+            background: hideSection ? "rgba(92,26,43,.08)" : "#fff",
+            color: hideSection ? "var(--wine)" : "var(--muted)",
+            transition: ".2s",
+          }}
+        >
+          <span style={{ fontSize: "1rem" }}>{hideSection ? "🙈" : "👁"}</span>
+          {hideSection ? "Carta oculta" : "Carta visible"}
         </button>
         <Link
           href="/imprimir/carta"

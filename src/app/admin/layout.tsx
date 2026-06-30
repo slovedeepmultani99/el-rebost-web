@@ -1,6 +1,17 @@
+import type { Metadata } from "next"
 import { auth } from "@/lib/auth"
 import { redirect } from "next/navigation"
 import Sidebar from "@/components/admin/Sidebar"
+
+export const metadata: Metadata = {
+  title: "El Rebost — Backoffice",
+  other: {
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
+    "apple-mobile-web-app-title": "Rebost Admin",
+  },
+}
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await auth()
@@ -19,6 +30,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         fontFamily: "var(--font-karla), sans-serif",
       }}
     >
+      <link rel="manifest" href="/admin-manifest.json" />
+      <link rel="apple-touch-icon" href="/logo.png" />
       <Sidebar userName={user.name ?? "Admin"} userEmail={user.email ?? ""} />
       <main
         className="admin-main"

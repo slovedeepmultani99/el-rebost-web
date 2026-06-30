@@ -12,12 +12,29 @@ export async function GET(req: Request) {
   if (!session) return NextResponse.json({ error: "No autorizado" }, { status: 401 })
 
   const { searchParams } = new URL(req.url)
-  const status = searchParams.get("status")
-  const date = searchParams.get("date")
+  const status   = searchParams.get("status")
+  const date     = searchParams.get("date")
+  const dateFrom = searchParams.get("dateFrom")
+  const dateTo   = searchParams.get("dateTo")
 
   const where: Record<string, unknown> = {}
-  if (status) where.status = status
-  if (date) where.date = new Date(date)
+
+  if (status === "active") {
+    where.status = { in: ["pending", "confirmed"] }
+  } else if (status) {
+    where.status = status
+  }
+
+  if (date) {
+    const d = new Date(`${date}T00:00:00.000Z`)
+    const next = new Date(d); next.setUTCDate(next.getUTCDate() + 1)
+    where.date = { gte: d, lt: next }
+  } else if (dateFrom && dateTo) {
+    where.date = {
+      gte: new Date(`${dateFrom}T00:00:00.000Z`),
+      lte: new Date(`${dateTo}T23:59:59.999Z`),
+    }
+  }
 
   const reservations = await prisma.reservation.findMany({
     where,
