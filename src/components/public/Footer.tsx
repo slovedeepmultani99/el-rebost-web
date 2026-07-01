@@ -1,6 +1,8 @@
 "use client"
 
-interface InfoData { tel: string; ig?: string; fb?: string; tiktok?: string; tripadvisor?: string; addr: string; email: string }
+import { useLang } from "@/i18n/context"
+
+interface InfoData { tel: string; ig?: string; fb?: string; tiktok?: string; tripadvisor?: string; addr: string; email?: string }
 interface Horario { dias: string; horas: string }
 interface MarcaData { nombre: string; tagline: string }
 
@@ -19,34 +21,26 @@ const TikTokIcon = () => (
     <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
   </svg>
 )
-const TripAdvisorIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 4.5c1.93 0 3.75.538 5.294 1.472L19.5 4.5l-1.5 1.5c.962 1.544 1.5 3.363 1.5 5.294 0 5.523-4.477 10-10 10S1.5 16.817 1.5 11.294 5.977 1.5 11.5 1.5H12v3zM7.5 11.294c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5-2.015 4.5-4.5 4.5-4.5-2.015-4.5-4.5zm4.5-2.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z"/>
-  </svg>
-)
 
-export default function Footer({ marca, info, horarios }: { marca: MarcaData; info: InfoData; horarios: Horario[] }) {
+export default function Footer({ marca, info, horarios }: Readonly<{ marca: MarcaData; info: InfoData; horarios: Horario[] }>) {
+  const { tr } = useLang()
+
   const socials = [
     info.ig && { href: info.ig.startsWith("http") ? info.ig : `https://instagram.com/${info.ig.replace("@", "")}`, icon: <IgIcon />, label: "Instagram" },
-    info.fb && { href: info.fb.startsWith("http") ? info.fb : `https://facebook.com/${info.fb}`, icon: <FbIcon />, label: "Facebook" },
     info.tiktok && { href: info.tiktok.startsWith("http") ? info.tiktok : `https://tiktok.com/@${info.tiktok.replace("@", "")}`, icon: <TikTokIcon />, label: "TikTok" },
-    info.tripadvisor && { href: info.tripadvisor, icon: <TripAdvisorIcon />, label: "TripAdvisor" },
+    info.fb && { href: info.fb.startsWith("http") ? info.fb : `https://facebook.com/${info.fb}`, icon: <FbIcon />, label: "Facebook" },
   ].filter(Boolean) as { href: string; icon: React.ReactNode; label: string }[]
+
+  const footerLinks = [
+    { title: tr.nav.menu, links: [["#menudia", tr.nav.menu], ["#carta", tr.nav.carta], ["#reservas", tr.nav.reservar], ["#resenas", tr.nav.resenas]] },
+    { title: tr.nav.casa, links: [["#esencia", tr.nav.casa], ["#extras", tr.nav.grupos], ["#contacto", tr.nav.contacto]] },
+    { title: tr.nav.contacto, links: [[`tel:+34${info.tel.replace(/\s/g, "")}`, info.tel], ...(info.email ? [[`mailto:${info.email}`, "Email"]] : [])] },
+  ]
 
   return (
     <footer style={{ background: "#2a0a13", color: "rgba(245,237,224,.7)", padding: "54px 0 30px" }}>
       <div className="wrap">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: 30,
-            alignItems: "flex-start",
-            paddingBottom: 34,
-            borderBottom: "1px solid rgba(245,237,224,.12)",
-          }}
-        >
+        <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 30, alignItems: "flex-start", paddingBottom: 34, borderBottom: "1px solid rgba(245,237,224,.12)" }}>
           {/* Brand + socials */}
           <div>
             <b style={{ fontFamily: "var(--font-fraunces), serif", fontSize: "1.4rem", color: "var(--cream)", display: "block", marginBottom: 8 }}>
@@ -56,18 +50,12 @@ export default function Footer({ marca, info, horarios }: { marca: MarcaData; in
               Restaurant · Braseria · Tapes · Cerveseria · Cafeteria. Cuina casolana a la brasa en Badalona.
             </p>
             {socials.length > 0 && (
-              <div style={{ display: "flex", gap: 12 }}>
+              <div style={{ display: "flex", gap: 10 }}>
                 {socials.map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={s.label}
+                  <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
                     style={{ width: 38, height: 38, borderRadius: 10, background: "rgba(245,237,224,.1)", display: "grid", placeItems: "center", color: "rgba(245,237,224,.7)", transition: ".2s" }}
                     onMouseEnter={(e) => { e.currentTarget.style.background = "var(--ember)"; e.currentTarget.style.color = "#fff" }}
-                    onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(245,237,224,.1)"; e.currentTarget.style.color = "rgba(245,237,224,.7)" }}
-                  >
+                    onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(245,237,224,.1)"; e.currentTarget.style.color = "rgba(245,237,224,.7)" }}>
                     {s.icon}
                   </a>
                 ))}
@@ -77,34 +65,18 @@ export default function Footer({ marca, info, horarios }: { marca: MarcaData; in
 
           {/* Links */}
           <div style={{ display: "flex", gap: 60, flexWrap: "wrap" }}>
-            {[
-              {
-                title: "Web",
-                links: [["#menudia", "Menú del día"], ["#carta", "Carta"], ["#reservas", "Reservar"], ["#resenas", "Reseñas"]],
-              },
-              {
-                title: "La casa",
-                links: [["#esencia", "Quiénes somos"], ["#extras", "Grupos y eventos"], ["#extras", "Para llevar"], ["#contacto", "Contacto"]],
-              },
-              {
-                title: "Contacto",
-                links: [[`tel:+34${info.tel.replace(/\s/g,"")}`, info.tel], ["#contacto", "Cómo llegar"]],
-              },
-            ].map((col) => (
+            {footerLinks.map((col) => (
               <div key={col.title}>
                 <h5 style={{ color: "var(--cream)", fontFamily: "var(--font-karla), sans-serif", fontWeight: 800, letterSpacing: ".12em", textTransform: "uppercase", fontSize: ".74rem", marginBottom: 12 }}>
                   {col.title}
                 </h5>
                 {col.links.map(([href, label]) => (
-                  <a
-                    key={label}
-                    href={href}
+                  <a key={label} href={href}
                     target={href.startsWith("http") ? "_blank" : undefined}
                     rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
                     style={{ display: "block", fontSize: ".9rem", padding: "4px 0", color: "rgba(245,237,224,.7)", transition: ".2s" }}
                     onMouseEnter={(e) => (e.currentTarget.style.color = "var(--ember-bright)")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,237,224,.7)")}
-                  >
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(245,237,224,.7)")}>
                     {label}
                   </a>
                 ))}
@@ -114,23 +86,18 @@ export default function Footer({ marca, info, horarios }: { marca: MarcaData; in
         </div>
 
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, paddingTop: 24, fontSize: ".8rem" }}>
-          <span>© {new Date().getFullYear()} {marca.nombre} · Badalona.</span>
+          <span>© {new Date().getFullYear()} {marca.nombre} · Badalona. {tr.footer.rights}.</span>
           <span>
-            <a href="/aviso-legal" style={{ color: "rgba(245,237,224,.7)" }}>Aviso legal</a>
+            <a href="/aviso-legal" style={{ color: "rgba(245,237,224,.7)" }}>{tr.footer.legal}</a>
             {" · "}
-            <a href="/privacidad" style={{ color: "rgba(245,237,224,.7)" }}>Privacidad</a>
+            <a href="/privacidad" style={{ color: "rgba(245,237,224,.7)" }}>{tr.footer.privacy}</a>
             {" · "}
-            <a href="#contacto" style={{ color: "rgba(245,237,224,.7)" }}>Alérgenos</a>
+            <a href="#contacto" style={{ color: "rgba(245,237,224,.7)" }}>{tr.footer.allergens}</a>
           </span>
         </div>
         <div style={{ paddingTop: 12, fontSize: ".74rem", color: "rgba(245,237,224,.4)", textAlign: "center" }}>
           Diseñada y desarrollada por{" "}
-          <a
-            href="https://www.linkedin.com/in/lovedeepdev/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "rgba(245,237,224,.6)", fontWeight: 700, textDecoration: "underline", textUnderlineOffset: 3 }}
-          >
+          <a href="https://www.linkedin.com/in/lovedeepdev/" target="_blank" rel="noopener noreferrer" style={{ color: "rgba(245,237,224,.6)", fontWeight: 700, textDecoration: "underline", textUnderlineOffset: 3 }}>
             Lovedeep Singh
           </a>
         </div>

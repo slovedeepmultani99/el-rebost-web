@@ -6,11 +6,13 @@ import Hero from "@/components/public/Hero"
 import Esencia from "@/components/public/Esencia"
 import MenuDia from "@/components/public/MenuDia"
 import CartaPublica from "@/components/public/CartaPublica"
+import CartaOculta from "@/components/public/CartaOculta"
 import Reservas from "@/components/public/Reservas"
 import Resenas from "@/components/public/Resenas"
 import Galeria from "@/components/public/Galeria"
 import Extras from "@/components/public/Extras"
 import Contacto from "@/components/public/Contacto"
+import SocialStrip from "@/components/public/SocialStrip"
 import Footer from "@/components/public/Footer"
 import WhatsAppButton from "@/components/public/WhatsAppButton"
 
@@ -57,12 +59,7 @@ const getGaleria = unstable_cache(
 )
 
 async function getData() {
-  const [cms, carta, menus, galeria] = await Promise.all([
-    getSettings(),
-    getCarta(),
-    getMenus(),
-    getGaleria(),
-  ])
+  const [cms, carta, menus, galeria] = await Promise.all([getSettings(), getCarta(), getMenus(), getGaleria()])
   return { cms, carta, menus, galeria }
 }
 
@@ -83,21 +80,27 @@ export default async function Home() {
   const { cms, carta, menus, galeria } = await getData()
   const { day: today, isNextDay } = getDisplayDay(menus)
 
+  const activeLocales: string[] = (cms.i18n?.active as string[]) ?? ["es"]
+  const cartaHidden = cms.carta?.hideSection === true
+
   return (
     <>
       <TopBar tel={cms.info?.tel ?? "934 65 30 00"} addr={cms.info?.addr ?? "Carrer Manuel Moreno Mauricio, 35-37 · Badalona"} />
-      <Nav showResenas={cms.info?.showResenas !== false} />
-      <Hero data={cms.hero} />
+      <Nav showResenas={cms.info?.showResenas !== false} activeLocales={activeLocales} />
+      <Hero data={cms.hero ?? {}} />
       <Esencia casa={cms.casa} features={cms.features} stats={cms.stats} />
       <MenuDia menus={menus} today={today} isNextDay={isNextDay} />
-      {cms.carta?.hideSection !== true && (
+      {cartaHidden ? (
+        <CartaOculta info={cms.info} />
+      ) : (
         <CartaPublica sections={carta} hidePrice={cms.carta?.hidePrice === true} />
       )}
       <Reservas info={cms.info} horarios={cms.horarios} />
       {cms.info?.showResenas !== false && <Resenas />}
       <Galeria images={galeria} />
-      <Extras />
+      <Extras info={cms.info} />
       <Contacto info={cms.info} horarios={cms.horarios} />
+      <SocialStrip info={cms.info ?? {}} />
       <Footer marca={cms.marca} info={cms.info} horarios={cms.horarios} />
       <WhatsAppButton />
     </>

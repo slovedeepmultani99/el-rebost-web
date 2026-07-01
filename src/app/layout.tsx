@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next"
 import { Fraunces, Karla } from "next/font/google"
+import { LangProvider } from "@/i18n/context"
 import "./globals.css"
 
 const fraunces = Fraunces({
@@ -316,7 +317,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
-      <body className={`${fraunces.variable} ${karla.variable} font-body`}>{children}</body>
+      <body className={`${fraunces.variable} ${karla.variable} font-body`}>
+        <LangProvider>{children}</LangProvider>
+      </body>
     </html>
   )
 }
