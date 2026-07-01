@@ -27,36 +27,41 @@ model Setting {
 // CARTA — Secciones y platos
 // ─────────────────────────────────────────
 model CartaSection {
-  id        String      @id @default(cuid())
-  title     String
-  subtitle  String?
-  note      String?     // "*Salsas: pesto, carbonara…"
-  group     String      @default("")  // parent category label
-  isSalsas  Boolean     @default(false)
-  sortOrder Int         @default(0)
-  active    Boolean     @default(true)
-  dishes    CartaDish[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id          String      @id @default(cuid())
+  title       String
+  title_ca    String?
+  subtitle    String?
+  subtitle_ca String?
+  note        String?
+  note_ca     String?
+  group       String      @default("")
+  isSalsas    Boolean     @default(false)
+  sortOrder   Int         @default(0)
+  active      Boolean     @default(true)
+  dishes      CartaDish[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 
   @@map("carta_sections")
 }
 
 model CartaDish {
-  id          String       @id @default(cuid())
-  sectionId   String
-  name        String
-  description String?
-  price       Decimal?     @db.Decimal(8, 2)
-  available   Boolean      @default(true)
-  isStar      Boolean      @default(false)
-  isVeg       Boolean      @default(false)
-  isSg        Boolean      @default(false)  // sin gluten
-  imageUrl    String?
-  sortOrder   Int          @default(0)
-  section     CartaSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  id             String       @id @default(cuid())
+  sectionId      String
+  name           String
+  name_ca        String?
+  description    String?
+  description_ca String?
+  price          Decimal?     @db.Decimal(8, 2)
+  available      Boolean      @default(true)
+  isStar         Boolean      @default(false)
+  isVeg          Boolean      @default(false)
+  isSg           Boolean      @default(false)
+  imageUrl       String?
+  sortOrder      Int          @default(0)
+  section        CartaSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 
   @@map("carta_dishes")
 }
@@ -82,15 +87,17 @@ model DailyMenu {
 }
 
 model DailyDish {
-  id           String    @id @default(cuid())
-  menuId       String
-  course       String    // "primero" | "segundo"
-  name         String
-  description  String?
-  sortOrder    Int       @default(0)
-  isSupplement Boolean   @default(false)
-  suppPrice    String?   // "+3 €"
-  menu         DailyMenu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  id             String    @id @default(cuid())
+  menuId         String
+  course         String    // "primero" | "segundo"
+  name           String
+  name_ca        String?
+  description    String?
+  description_ca String?
+  sortOrder      Int       @default(0)
+  isSupplement   Boolean   @default(false)
+  suppPrice      String?
+  menu           DailyMenu @relation(fields: [menuId], references: [id], onDelete: Cascade)
 
   @@map("daily_dishes")
 }

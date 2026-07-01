@@ -4,11 +4,14 @@ import { useState, useMemo } from "react"
 import { useLang } from "@/i18n/context"
 
 interface Dish {
-  id: string; name: string; description: string | null; price: string | null
-  isStar: boolean; isVeg: boolean; isSg: boolean
+  id: string; name: string; name_ca?: string | null
+  description: string | null; description_ca?: string | null
+  price: string | null; isStar: boolean; isVeg: boolean; isSg: boolean
 }
 interface Section {
-  id: string; title: string; subtitle: string | null; note: string | null
+  id: string; title: string; title_ca?: string | null
+  subtitle: string | null; subtitle_ca?: string | null
+  note: string | null; note_ca?: string | null
   group: string; isSalsas: boolean; dishes: Dish[]
 }
 interface Group { name: string; sections: Section[] }
@@ -24,8 +27,12 @@ function buildGroups(sections: Section[]): Group[] {
 }
 
 export default function CartaPublica({ sections, hidePrice = false }: Readonly<{ sections: Section[]; hidePrice?: boolean }>) {
-  const { tr } = useLang()
+  const { tr, locale } = useLang()
   const groups = useMemo(() => buildGroups(sections), [sections])
+
+  function loc(base: string, ca?: string | null): string {
+    return locale === "ca" && ca ? ca : base
+  }
   const [activeGroup, setActiveGroup] = useState(groups[0]?.name ?? "")
   const current = groups.find((g) => g.name === activeGroup)
 
@@ -59,11 +66,11 @@ export default function CartaPublica({ sections, hidePrice = false }: Readonly<{
           <div key={sec.id} style={{ marginBottom: idx < current.sections.length - 1 ? 48 : 0 }}>
             <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap", marginBottom: 6 }}>
               <h3 style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "clamp(1.35rem,2.5vw,1.75rem)", color: "var(--wine)", margin: 0 }}>
-                {sec.title}
+                {loc(sec.title, sec.title_ca)}
               </h3>
-              {sec.subtitle && <span style={{ fontSize: ".85rem", color: "var(--ink-soft)", fontStyle: "italic" }}>{sec.subtitle}</span>}
+              {sec.subtitle && <span style={{ fontSize: ".85rem", color: "var(--ink-soft)", fontStyle: "italic" }}>{loc(sec.subtitle, sec.subtitle_ca)}</span>}
             </div>
-            {sec.note && <p style={{ fontSize: ".82rem", color: "var(--ink-soft)", fontStyle: "italic", marginBottom: 14, marginTop: 2 }}>{sec.note}</p>}
+            {sec.note && <p style={{ fontSize: ".82rem", color: "var(--ink-soft)", fontStyle: "italic", marginBottom: 14, marginTop: 2 }}>{loc(sec.note, sec.note_ca)}</p>}
             <div style={{ height: 2, background: "linear-gradient(to right, var(--wine), transparent)", borderRadius: 2, marginBottom: 16, maxWidth: 120 }} />
 
             <div className={sec.isSalsas ? "carta-salsas" : "carta-dishes"} style={{ display: "grid", gridTemplateColumns: sec.isSalsas ? "repeat(4,1fr)" : "1fr 1fr", gap: sec.isSalsas ? "14px" : "0 48px", maxWidth: 1000 }}>
@@ -72,11 +79,11 @@ export default function CartaPublica({ sections, hidePrice = false }: Readonly<{
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 5, flexWrap: "wrap" }}>
                       {d.isStar && <span title={tr.carta.star} style={{ color: "var(--ember)", fontSize: ".7rem" }}>★</span>}
-                      <b style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "1.08rem" }}>{d.name}</b>
+                      <b style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "1.08rem" }}>{loc(d.name, d.name_ca)}</b>
                       {d.isVeg && <span title={tr.carta.veg} style={{ fontSize: ".62rem", fontWeight: 700, color: "var(--olive)", border: "1px solid var(--olive)", borderRadius: 4, padding: "1px 4px" }}>VG</span>}
                       {d.isSg && <span title={tr.carta.sg} style={{ fontSize: ".62rem", fontWeight: 700, color: "var(--gold)", border: "1px solid var(--gold)", borderRadius: 4, padding: "1px 4px" }}>SG</span>}
                     </div>
-                    {d.description && <p style={{ fontSize: ".84rem", color: "var(--ink-soft)", marginTop: 2, margin: 0 }}>{d.description}</p>}
+                    {d.description && <p style={{ fontSize: ".84rem", color: "var(--ink-soft)", marginTop: 2, margin: 0 }}>{loc(d.description, d.description_ca)}</p>}
                   </div>
                   {d.price && !hidePrice && (
                     <span style={{ fontFamily: "var(--font-fraunces), serif", fontWeight: 500, fontSize: "1rem", color: "var(--wine)", flexShrink: 0, whiteSpace: "nowrap" }}>
